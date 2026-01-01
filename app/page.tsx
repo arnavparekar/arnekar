@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { Monitor, Github, Linkedin, Twitter, Mail, ExternalLink, ChevronRight, Folder, File } from 'lucide-react';
+import { Monitor, Github, Linkedin, Twitter, Mail, ExternalLink, ChevronRight, Folder, File, Download } from 'lucide-react';
 
 // Types
 interface Command {
@@ -65,9 +65,31 @@ const THEMES: Record<string, Theme> = {
 };
 
 // Streaming Text Component
+// const StreamingText: React.FC<{ text: string; speed?: number; onComplete?: () => void }> = ({ 
+//   text, 
+//   speed = 15,
+//   onComplete 
+// }) => {
+//   const [displayedText, setDisplayedText] = useState('');
+//   const [currentIndex, setCurrentIndex] = useState(0);
+
+//   useEffect(() => {
+//     if (currentIndex < text.length) {
+//       const timeout = setTimeout(() => {
+//         setDisplayedText(prev => prev + text[currentIndex]);
+//         setCurrentIndex(prev => prev + 1);
+//       }, speed);
+//       return () => clearTimeout(timeout);
+//     } else if (onComplete) {
+//       onComplete();
+//     }
+//   }, [currentIndex, text, speed, onComplete]);
+
+//   return <span>{displayedText}</span>;
+// };
 const StreamingText: React.FC<{ text: string; speed?: number; onComplete?: () => void }> = ({ 
   text, 
-  speed = 20,
+  speed = 15,
   onComplete 
 }) => {
   const [displayedText, setDisplayedText] = useState('');
@@ -75,36 +97,49 @@ const StreamingText: React.FC<{ text: string; speed?: number; onComplete?: () =>
 
   useEffect(() => {
     if (currentIndex < text.length) {
+      // 1. Regular streaming logic
       const timeout = setTimeout(() => {
         setDisplayedText(prev => prev + text[currentIndex]);
         setCurrentIndex(prev => prev + 1);
       }, speed);
       return () => clearTimeout(timeout);
     } else if (onComplete) {
-      onComplete();
+      // 2. NEW: Wait for 1 seconds (1000ms) before signaling completion
+      const delayTimeout = setTimeout(() => {
+        onComplete();
+      }, 1300); 
+
+      return () => clearTimeout(delayTimeout);
     }
   }, [currentIndex, text, speed, onComplete]);
 
   return <span>{displayedText}</span>;
 };
 
+
 // ASCII Banner Component
 const ASCIIBanner: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
   const banner = `
-  ╔═══════════════════════════════════════════════════════════╗
-  ║                                                           ║
-  ║   ████████╗███████╗██████╗ ███╗   ███╗██╗███╗   ██╗     ║
-  ║   ╚══██╔══╝██╔════╝██╔══██╗████╗ ████║██║████╗  ██║     ║
-  ║      ██║   █████╗  ██████╔╝██╔████╔██║██║██╔██╗ ██║     ║
-  ║      ██║   ██╔══╝  ██╔══██╗██║╚██╔╝██║██║██║╚██╗██║     ║
-  ║      ██║   ███████╗██║  ██║██║ ╚═╝ ██║██║██║ ╚████║     ║
-  ║      ╚═╝   ╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝     ║
-  ║                                                           ║
-  ║              P O R T F O L I O   v 2 . 0                 ║
-  ║                                                           ║
-  ╚═══════════════════════════════════════════════════════════╝
 
   System Booting...
+
+  ╔════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+  ║                                                                                                                                        ║
+  ║  :::'###::::'########::'##::: ##::::'###::::'##::::'##::::'########:::::'###::::'########::'########:'##:::'##::::'###::::'########::  ║
+  ║  ::'## ##::: ##.... ##: ###:: ##:::'## ##::: ##:::: ##:::: ##.... ##:::'## ##::: ##.... ##: ##.....:: ##::'##::::'## ##::: ##.... ##:  ║
+  ║  :'##:. ##:: ##:::: ##: ####: ##::'##:. ##:: ##:::: ##:::: ##:::: ##::'##:. ##:: ##:::: ##: ##::::::: ##:'##::::'##:. ##:: ##:::: ##:  ║
+  ║  '##:::. ##: ########:: ## ## ##:'##:::. ##: ##:::: ##:::: ########::'##:::. ##: ########:: ######::: #####::::'##:::. ##: ########::  ║
+  ║   #########: ##.. ##::: ##. ####: #########:. ##:: ##::::: ##.....::: #########: ##.. ##::: ##...:::: ##. ##::: #########: ##.. ##:::  ║
+  ║   ##.... ##: ##::. ##:: ##:. ###: ##.... ##::. ## ##:::::: ##:::::::: ##.... ##: ##::. ##:: ##::::::: ##:. ##:: ##.... ##: ##::. ##::  ║
+  ║   ##:::: ##: ##:::. ##: ##::. ##: ##:::: ##:::. ###::::::: ##:::::::: ##:::: ##: ##:::. ##: ########: ##::. ##: ##:::: ##: ##:::. ##:  ║
+  ║  ..:::::..::..:::::..::..::::..::..:::::..:::::...::::::::..:::::::::..:::::..::..:::::..::........::..::::..::..:::::..::..:::::..::  ║
+  ║                                                                                                                                        ║
+  ║              P O R T F O L I O   v 1 . 0                                                                                               ║ 
+  ║                                                                                                                                        ║
+  ╚════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+
+  System Iniitialized  
+
   `;
 
   return (
@@ -162,57 +197,69 @@ const ProjectCard: React.FC<{
 };
 
 // PDF Viewer Component
+// const PDFViewer: React.FC = () => {
+//   return (
+//     <div className="border border-current rounded-lg p-4 max-w-4xl">
+//       <div className="flex items-center justify-between mb-4 pb-2 border-b border-current">
+//         <div className="flex items-center gap-2">
+//           <File className="w-5 h-5" />
+//           <span className="font-semibold">resume.pdf</span>
+//         </div>
+//         <a 
+//           href="/resume.pdf" 
+//           download 
+//           className="px-3 py-1 border border-current rounded hover:bg-current hover:bg-opacity-20 transition-colors"
+//         >
+//           Download
+//         </a>
+//       </div>
+//       <div className="w-full h-[700px] bg-zinc-800">
+//         <iframe
+//           src="/resume.pdf#view=FitH"
+//           title="Resume Preview"
+//           className="w-full h-full border-none"
+//         />
+//       </div>
+//     </div>
+//   );
+// };
 const PDFViewer: React.FC = () => {
   return (
-    <div className="border border-current rounded-lg p-4 max-w-4xl">
-      <div className="flex items-center justify-between mb-4 pb-2 border-b border-current">
-        <div className="flex items-center gap-2">
-          <File className="w-5 h-5" />
-          <span className="font-semibold">resume.pdf</span>
+    <div className="flex flex-col border border-current rounded-lg overflow-hidden w-full max-w-5xl bg-[#1a1a1a] mx-auto">
+      
+      {/* Responsive Header */}
+      <div className="flex items-center justify-between px-3 py-2 md:px-4 border-b border-current bg-black/40">
+        <div className="flex items-center gap-2 min-w-0">
+          <File className="w-4 h-4 text-blue-400 flex-shrink-0" />
+          <span className="font-mono text-xs md:text-sm truncate opacity-80">My Resume</span>
         </div>
-        <a 
-          href="/resume.pdf" 
-          download 
-          className="px-3 py-1 border border-current rounded hover:bg-current hover:bg-opacity-20 transition-colors"
-        >
-          Download
-        </a>
+        
+        <div className="flex gap-2">
+          {/* Mobile-only View Full Button (Hidden on Desktop) */}
+          <a 
+            href="/resume.pdf" 
+            target="_blank"
+            rel="noopener noreferrer"
+            className="md:hidden text-[10px] px-2 py-1 border border-current rounded flex items-center gap-1 hover:bg-current hover:text-black transition-all"
+          >
+            <ExternalLink size={12} /> View
+          </a>
+        </div>
       </div>
-      <div className="bg-white text-black p-8 rounded min-h-[600px]">
-        <div className="max-w-3xl mx-auto">
-          <h1 className="text-3xl font-bold mb-2">Your Name</h1>
-          <p className="text-lg text-gray-600 mb-6">Senior Frontend Developer</p>
-          
-          <section className="mb-6">
-            <h2 className="text-xl font-bold mb-3 pb-2 border-b-2 border-gray-300">Experience</h2>
-            <div className="mb-4">
-              <h3 className="font-bold">Senior Frontend Developer - Tech Corp</h3>
-              <p className="text-sm text-gray-600 mb-2">2021 - Present</p>
-              <ul className="list-disc list-inside text-sm space-y-1 text-gray-700">
-                <li>Led development of React-based applications serving 1M+ users</li>
-                <li>Implemented CI/CD pipelines reducing deployment time by 60%</li>
-                <li>Mentored junior developers and conducted code reviews</li>
-              </ul>
-            </div>
-          </section>
 
-          <section className="mb-6">
-            <h2 className="text-xl font-bold mb-3 pb-2 border-b-2 border-gray-300">Skills</h2>
-            <div className="grid grid-cols-2 gap-4 text-sm">
-              <div>
-                <h3 className="font-semibold mb-2">Frontend</h3>
-                <p className="text-gray-700">React, Next.js, TypeScript, Tailwind CSS</p>
-              </div>
-              <div>
-                <h3 className="font-semibold mb-2">Tools</h3>
-                <p className="text-gray-700">Git, Docker, AWS, Vercel</p>
-              </div>
-            </div>
-          </section>
-
-          <p className="text-xs text-gray-500 text-center mt-8">
-            Replace this with your actual PDF at /public/resume.pdf
-          </p>
+      {/* PDF Container - Adjusts height based on screen size */}
+      <div className="relative w-full h-[50vh] md:h-[75vh] lg:h-[85vh] bg-zinc-800">
+        <iframe
+          src="/resume.pdf#view=FitH"
+          title="Resume Preview"
+          className="w-full h-full border-none shadow-2xl"
+        />
+        
+        {/* Mobile Fallback Hint */}
+        <div className="absolute inset-0 -z-10 flex flex-col items-center justify-center p-6 text-center text-zinc-500 md:hidden">
+          <File size={48} className="mb-4 opacity-20" />
+          <p className="text-sm">PDF preview might not be supported on your mobile browser.</p>
+          <a href="/resume.pdf" target="_blank" className="mt-2 text-blue-400 underline">Open directly</a>
         </div>
       </div>
     </div>
@@ -273,25 +320,28 @@ const AboutCommand: React.FC = () => {
 const ProjectsCommand: React.FC = () => {
   const projects = [
     {
-      title: 'E-Commerce Platform',
-      description: 'Full-stack Next.js e-commerce with Stripe integration, real-time inventory, and admin dashboard.',
-      tags: ['Next.js', 'TypeScript', 'Stripe', 'PostgreSQL'],
-      github: 'https://github.com/yourusername/ecommerce',
-      demo: 'https://demo.example.com',
-      image: 'https://images.unsplash.com/photo-1557821552-17105176677c?w=400&h=300&fit=crop'
+      title: 'Remembron',
+      description: 'It is an audio-visual app designed for individuals with Alzheimer’s, offering personalized reminders, geofencing, and guidance.',
+      tags: ['Flutter', 'GCP', 'Tensorflow'],
+      github: 'https://github.com/Nikhil-1426/Remembron',
+      demo: 'https://github.com/Nikhil-1426/Remembron?tab=readme-ov-file#live-preview-',
+      image: '/projects/project1.jpg'
     },
     {
-      title: 'AI Chat Application',
-      description: 'Real-time chat app with AI-powered responses using OpenAI API and WebSocket connections.',
-      tags: ['React', 'OpenAI', 'WebSocket', 'Node.js'],
-      github: 'https://github.com/yourusername/ai-chat',
-      demo: 'https://demo.example.com'
+      title: 'Travelshield',
+      description: 'It is a comprehensive travel health management solution designed to ensure safer journeys for both travelers and airport authorities using a website and a mobile app.',
+      tags: ['React', 'GCP', 'Azure', 'Flutter', 'Flask'],
+      github: 'https://github.com/arnavparekar/TravelShield-Web',
+      demo: 'https://github.com/Nikhil-1426/TravelShield?tab=readme-ov-file#live-preview',
+      image: '/projects/project2.jpg'
     },
     {
-      title: 'Portfolio CMS',
-      description: 'Headless CMS for managing portfolio content with drag-and-drop builder and live preview.',
-      tags: ['Next.js', 'Prisma', 'TailwindCSS', 'Vercel'],
-      github: 'https://github.com/yourusername/portfolio-cms'
+      title: 'Dishcovery',
+      description: 'It is an intelligent culinary assistant generating AI-powered recipes from available ingredients, organizing community recipe exploration, and automating grocery lists.',
+      tags: ['React', 'Flask', 'GCP'],
+      github: 'https://github.com/arnavparekar/Dishcovery',
+      demo: 'https://dishcovery-f.onrender.com/',
+      image: '/projects/project3.jpg'
     }
   ];
 
@@ -304,7 +354,15 @@ const ProjectsCommand: React.FC = () => {
         ))}
       </div>
       <p className="mt-6 text-sm opacity-70">
-        💡 Replace project images in /public/projects/ and update links in the code
+        You can find all my projects{' '}
+        <a 
+          href="https://github.com/arnavparekar" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="underline hover:text-white transition-colors cursor-pointer"
+        >
+          right here on Github
+        </a>.
       </p>
     </div>
   );
@@ -549,7 +607,7 @@ export default function Home() {
             </div>
             <div className="flex items-center gap-2 ml-4">
               <Monitor className="w-4 h-4" />
-              <span className="text-sm font-mono">portfolio@terminal ~ zsh</span>
+              <span className="text-sm font-mono">arnav@terminal_portfolio ~ zsh</span>
             </div>
           </div>
 
@@ -560,14 +618,14 @@ export default function Home() {
             onClick={() => inputRef.current?.focus()}
           >
             <p className="mb-4 opacity-70">
-              Welcome to the terminal portfolio. Type <span className="font-bold">'help'</span> to see available commands.
+              Welcome to my terminal portfolio. Type <span className="font-bold">'help'</span> to see available commands.
             </p>
             
             {commands.map((cmd, i) => (
               <div key={i} className="mb-4">
                 <div className="flex items-center gap-2 mb-2">
                   <ChevronRight className="w-4 h-4" style={{ color: 'var(--accent-color)' }} />
-                  <span className="opacity-70">guest@portfolio:~$</span>
+                  <span className="opacity-70">arnav@profile:~$</span>
                   <span className="font-bold">{cmd.input}</span>
                 </div>
                 <div className="ml-6 mb-4">{cmd.output}</div>
@@ -577,7 +635,7 @@ export default function Home() {
             {/* Input Line */}
             <div className="flex items-center gap-2">
               <ChevronRight className="w-4 h-4" style={{ color: 'var(--accent-color)' }} />
-              <span className="opacity-70">guest@portfolio:~$</span>
+              <span className="opacity-70">arnav@profile:~$</span>
               <input
                 ref={inputRef}
                 type="text"
