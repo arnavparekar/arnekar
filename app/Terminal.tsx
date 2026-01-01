@@ -1,0 +1,663 @@
+'use client';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { Monitor, Github, Linkedin, Twitter, Mail, ExternalLink, ChevronRight, Folder, File } from 'lucide-react';
+
+// Types
+interface Command {
+  input: string;
+  output: React.ReactNode;
+  timestamp: Date;
+}
+
+interface Theme {
+  name: string;
+  background: string;
+  foreground: string;
+  accent: string;
+  secondary: string;
+}
+
+// Themes Configuration
+const THEMES: Record<string, Theme> = {
+  dark: {
+    name: 'Dark',
+    background: '#0a0e27',
+    foreground: '#00ff41',
+    accent: '#00d9ff',
+    secondary: '#1a1f3a'
+  },
+  light: {
+    name: 'Light',
+    background: '#f5f5f5',
+    foreground: '#2d3748',
+    accent: '#3182ce',
+    secondary: '#e2e8f0'
+  },
+  'blue-matrix': {
+    name: 'Blue Matrix',
+    background: '#0d1b2a',
+    foreground: '#00d9ff',
+    accent: '#00ff41',
+    secondary: '#1b263b'
+  },
+  espresso: {
+    name: 'Espresso',
+    background: '#2b1d0e',
+    foreground: '#e4c07a',
+    accent: '#d4976c',
+    secondary: '#3d2817'
+  },
+  'green-goblin': {
+    name: 'Green Goblin',
+    background: '#0f2027',
+    foreground: '#39ff14',
+    accent: '#7fff00',
+    secondary: '#1a3a3a'
+  },
+  ubuntu: {
+    name: 'Ubuntu',
+    background: '#300a24',
+    foreground: '#ffffff',
+    accent: '#e95420',
+    secondary: '#5e2750'
+  }
+};
+
+// Streaming Text Component
+const StreamingText: React.FC<{ text: string; speed?: number; onComplete?: () => void }> = ({ 
+  text, 
+  speed = 20,
+  onComplete 
+}) => {
+  const [displayedText, setDisplayedText] = useState('');
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    if (currentIndex < text.length) {
+      const timeout = setTimeout(() => {
+        setDisplayedText(prev => prev + text[currentIndex]);
+        setCurrentIndex(prev => prev + 1);
+      }, speed);
+      return () => clearTimeout(timeout);
+    } else if (onComplete) {
+      onComplete();
+    }
+  }, [currentIndex, text, speed, onComplete]);
+
+  return <span>{displayedText}</span>;
+};
+
+// ASCII Banner Component
+const ASCIIBanner: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
+  const banner = `
+  ╔═══════════════════════════════════════════════════════════╗
+  ║                                                           ║
+  ║   ████████╗███████╗██████╗ ███╗   ███╗██╗███╗   ██╗     ║
+  ║   ╚══██╔══╝██╔════╝██╔══██╗████╗ ████║██║████╗  ██║     ║
+  ║      ██║   █████╗  ██████╔╝██╔████╔██║██║██╔██╗ ██║     ║
+  ║      ██║   ██╔══╝  ██╔══██╗██║╚██╔╝██║██║██║╚██╗██║     ║
+  ║      ██║   ███████╗██║  ██║██║ ╚═╝ ██║██║██║ ╚████║     ║
+  ║      ╚═╝   ╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝     ║
+  ║                                                           ║
+  ║              P O R T F O L I O   v 2 . 0                 ║
+  ║                                                           ║
+  ╚═══════════════════════════════════════════════════════════╝
+
+  System Booting...
+  `;
+
+  return (
+    <pre className="text-xs sm:text-sm font-mono mb-4 opacity-90">
+      <StreamingText text={banner} speed={1} onComplete={onComplete} />
+    </pre>
+  );
+};
+
+// Project Card Component
+const ProjectCard: React.FC<{ 
+  title: string; 
+  description: string; 
+  tags: string[]; 
+  github?: string;
+  demo?: string;
+  image?: string;
+}> = ({ title, description, tags, github, demo, image }) => {
+  return (
+    <div className="border border-current rounded-lg p-4 hover:scale-105 transition-transform duration-300 backdrop-blur-sm bg-opacity-10 bg-white">
+      <div className="aspect-video bg-current bg-opacity-10 rounded mb-3 overflow-hidden">
+        {image ? (
+          <img src={image} alt={title} className="w-full h-full object-cover" />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center">
+            <Folder className="w-12 h-12 opacity-30" />
+          </div>
+        )}
+      </div>
+      <h3 className="font-bold text-lg mb-2">{title}</h3>
+      <p className="text-sm opacity-80 mb-3">{description}</p>
+      <div className="flex flex-wrap gap-2 mb-3">
+        {tags.map((tag, i) => (
+          <span key={i} className="text-xs px-2 py-1 rounded border border-current opacity-70">
+            {tag}
+          </span>
+        ))}
+      </div>
+      <div className="flex gap-3">
+        {github && (
+          <a href={github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-sm hover:underline">
+            <Github className="w-4 h-4" />
+            Code
+          </a>
+        )}
+        {demo && (
+          <a href={demo} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-sm hover:underline">
+            <ExternalLink className="w-4 h-4" />
+            Demo
+          </a>
+        )}
+      </div>
+    </div>
+  );
+};
+
+// PDF Viewer Component
+const PDFViewer: React.FC = () => {
+  return (
+    <div className="border border-current rounded-lg p-4 max-w-4xl">
+      <div className="flex items-center justify-between mb-4 pb-2 border-b border-current">
+        <div className="flex items-center gap-2">
+          <File className="w-5 h-5" />
+          <span className="font-semibold">resume.pdf</span>
+        </div>
+        <a 
+          href="/resume.pdf" 
+          download 
+          className="px-3 py-1 border border-current rounded hover:bg-current hover:bg-opacity-20 transition-colors"
+        >
+          Download
+        </a>
+      </div>
+      <div className="bg-white text-black p-8 rounded min-h-[600px]">
+        <div className="max-w-3xl mx-auto">
+          <h1 className="text-3xl font-bold mb-2">Your Name</h1>
+          <p className="text-lg text-gray-600 mb-6">Senior Frontend Developer</p>
+          
+          <section className="mb-6">
+            <h2 className="text-xl font-bold mb-3 pb-2 border-b-2 border-gray-300">Experience</h2>
+            <div className="mb-4">
+              <h3 className="font-bold">Senior Frontend Developer - Tech Corp</h3>
+              <p className="text-sm text-gray-600 mb-2">2021 - Present</p>
+              <ul className="list-disc list-inside text-sm space-y-1 text-gray-700">
+                <li>Led development of React-based applications serving 1M+ users</li>
+                <li>Implemented CI/CD pipelines reducing deployment time by 60%</li>
+                <li>Mentored junior developers and conducted code reviews</li>
+              </ul>
+            </div>
+          </section>
+
+          <section className="mb-6">
+            <h2 className="text-xl font-bold mb-3 pb-2 border-b-2 border-gray-300">Skills</h2>
+            <div className="grid grid-cols-2 gap-4 text-sm">
+              <div>
+                <h3 className="font-semibold mb-2">Frontend</h3>
+                <p className="text-gray-700">React, Next.js, TypeScript, Tailwind CSS</p>
+              </div>
+              <div>
+                <h3 className="font-semibold mb-2">Tools</h3>
+                <p className="text-gray-700">Git, Docker, AWS, Vercel</p>
+              </div>
+            </div>
+          </section>
+
+          <p className="text-xs text-gray-500 text-center mt-8">
+            Replace this with your actual PDF at /public/resume.pdf
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Command Components
+const HelpCommand: React.FC = () => {
+  const commands = [
+    { cmd: 'help', desc: 'Display all available commands' },
+    { cmd: 'about', desc: 'Learn more about me' },
+    { cmd: 'projects', desc: 'View my projects portfolio' },
+    { cmd: 'cv / resume', desc: 'View my resume/CV' },
+    { cmd: 'socials', desc: 'Find me on social media' },
+    { cmd: 'neofetch', desc: 'Display system information' },
+    { cmd: 'themes', desc: 'List available color themes' },
+    { cmd: 'themes set <name>', desc: 'Change color theme' },
+    { cmd: 'gui', desc: 'Switch to graphical interface' },
+    { cmd: 'clear', desc: 'Clear terminal history' },
+  ];
+
+  return (
+    <div className="space-y-2">
+      <p className="mb-4">Available commands:</p>
+      {commands.map((cmd, i) => (
+        <div key={i} className="flex gap-4">
+          <span className="font-bold min-w-[180px]">{cmd.cmd}</span>
+          <span className="opacity-70">{cmd.desc}</span>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+const AboutCommand: React.FC = () => {
+  return (
+    <div className="space-y-3">
+      <p className="text-lg font-bold">👋 Hi, I'm [Your Name]</p>
+      <p>
+        A passionate Senior Frontend Developer specializing in building exceptional 
+        digital experiences. With 5+ years of experience in React, Next.js, and modern 
+        web technologies, I transform complex problems into elegant solutions.
+      </p>
+      <p>
+        Currently focusing on performance optimization, accessibility, and creating 
+        delightful user interfaces that people love to use.
+      </p>
+      <div className="mt-4 pt-4 border-t border-current">
+        <p className="opacity-70">📍 Location: San Francisco, CA</p>
+        <p className="opacity-70">💼 Open to: Freelance & Full-time opportunities</p>
+      </div>
+    </div>
+  );
+};
+
+const ProjectsCommand: React.FC = () => {
+  const projects = [
+    {
+      title: 'E-Commerce Platform',
+      description: 'Full-stack Next.js e-commerce with Stripe integration, real-time inventory, and admin dashboard.',
+      tags: ['Next.js', 'TypeScript', 'Stripe', 'PostgreSQL'],
+      github: 'https://github.com/yourusername/ecommerce',
+      demo: 'https://demo.example.com',
+      image: 'https://images.unsplash.com/photo-1557821552-17105176677c?w=400&h=300&fit=crop'
+    },
+    {
+      title: 'AI Chat Application',
+      description: 'Real-time chat app with AI-powered responses using OpenAI API and WebSocket connections.',
+      tags: ['React', 'OpenAI', 'WebSocket', 'Node.js'],
+      github: 'https://github.com/yourusername/ai-chat',
+      demo: 'https://demo.example.com'
+    },
+    {
+      title: 'Portfolio CMS',
+      description: 'Headless CMS for managing portfolio content with drag-and-drop builder and live preview.',
+      tags: ['Next.js', 'Prisma', 'TailwindCSS', 'Vercel'],
+      github: 'https://github.com/yourusername/portfolio-cms'
+    }
+  ];
+
+  return (
+    <div>
+      <p className="mb-6 text-lg font-bold">Featured Projects</p>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {projects.map((project, i) => (
+          <ProjectCard key={i} {...project} />
+        ))}
+      </div>
+      <p className="mt-6 text-sm opacity-70">
+        💡 Replace project images in /public/projects/ and update links in the code
+      </p>
+    </div>
+  );
+};
+
+const SocialsCommand: React.FC = () => {
+  const socials = [
+    { icon: Github, label: 'GitHub', url: 'https://github.com/yourusername' },
+    { icon: Linkedin, label: 'LinkedIn', url: 'https://linkedin.com/in/yourusername' },
+    { icon: Twitter, label: 'Twitter', url: 'https://twitter.com/yourusername' },
+    { icon: Mail, label: 'Email', url: 'mailto:your.email@example.com' }
+  ];
+
+  return (
+    <div className="space-y-4">
+      <p className="text-lg font-bold mb-4">Connect with me:</p>
+      {socials.map((social, i) => (
+        <a
+          key={i}
+          href={social.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-3 hover:underline group"
+        >
+          <social.icon className="w-5 h-5" />
+          <span className="group-hover:translate-x-2 transition-transform">
+            {social.label}
+          </span>
+        </a>
+      ))}
+    </div>
+  );
+};
+
+const NeofetchCommand: React.FC = () => {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="space-y-1 font-mono text-sm">
+        <div className="text-2xl font-bold mb-2">yourusername@portfolio</div>
+        <div className="h-px bg-current opacity-30 mb-2"></div>
+        <p><span className="font-bold">OS:</span> {navigator.platform}</p>
+        <p><span className="font-bold">Browser:</span> {navigator.userAgent.split(' ').slice(-1)[0]}</p>
+        <p><span className="font-bold">Resolution:</span> {window.screen.width}x{window.screen.height}</p>
+        <p><span className="font-bold">Language:</span> {navigator.language}</p>
+      </div>
+      <div className="space-y-1 font-mono text-sm">
+        <div className="text-xl font-bold mb-2">Tech Stack</div>
+        <div className="h-px bg-current opacity-30 mb-2"></div>
+        <p>⚛️  React / Next.js</p>
+        <p>📘 TypeScript</p>
+        <p>🎨 Tailwind CSS</p>
+        <p>🔥 Framer Motion</p>
+        <p>🐙 Git / GitHub</p>
+        <p>☁️  AWS / Vercel</p>
+        <p>🐳 Docker</p>
+      </div>
+    </div>
+  );
+};
+
+const ThemesCommand: React.FC<{ currentTheme: string; onThemeChange: (theme: string) => void }> = ({ 
+  currentTheme, 
+  onThemeChange 
+}) => {
+  return (
+    <div className="space-y-4">
+      <p className="text-lg font-bold mb-4">Available Themes:</p>
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+        {Object.entries(THEMES).map(([key, theme]) => (
+          <button
+            key={key}
+            onClick={() => onThemeChange(key)}
+            className={`p-3 border border-current rounded-lg text-left hover:scale-105 transition-transform ${
+              currentTheme === key ? 'bg-current bg-opacity-20' : ''
+            }`}
+          >
+            <div className="font-bold mb-1">{theme.name}</div>
+            <div className="flex gap-1">
+              <div className="w-4 h-4 rounded-full" style={{ backgroundColor: theme.background }}></div>
+              <div className="w-4 h-4 rounded-full" style={{ backgroundColor: theme.foreground }}></div>
+              <div className="w-4 h-4 rounded-full" style={{ backgroundColor: theme.accent }}></div>
+            </div>
+          </button>
+        ))}
+      </div>
+      <p className="text-sm opacity-70 mt-4">
+        Usage: <span className="font-mono">themes set &lt;name&gt;</span>
+      </p>
+    </div>
+  );
+};
+
+// Main Terminal Component
+const Terminal: React.FC = () => {
+  const [commands, setCommands] = useState<Command[]>([]);
+  const [input, setInput] = useState('');
+  const [history, setHistory] = useState<string[]>([]);
+  const [historyIndex, setHistoryIndex] = useState(-1);
+  const [isBooting, setIsBooting] = useState(true);
+  const [theme, setTheme] = useState('dark');
+  const [isProcessing, setIsProcessing] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const outputRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    document.documentElement.style.setProperty('--bg-color', THEMES[theme].background);
+    document.documentElement.style.setProperty('--fg-color', THEMES[theme].foreground);
+    document.documentElement.style.setProperty('--accent-color', THEMES[theme].accent);
+    document.documentElement.style.setProperty('--secondary-color', THEMES[theme].secondary);
+  }, [theme]);
+
+  useEffect(() => {
+    if (outputRef.current) {
+      outputRef.current.scrollTop = outputRef.current.scrollHeight;
+    }
+  }, [commands]);
+
+  const processCommand = useCallback((cmd: string) => {
+    const trimmedCmd = cmd.trim().toLowerCase();
+    let output: React.ReactNode;
+
+    if (trimmedCmd === 'help') {
+      output = <HelpCommand />;
+    } else if (trimmedCmd === 'about') {
+      output = <AboutCommand />;
+    } else if (trimmedCmd === 'projects') {
+      output = <ProjectsCommand />;
+    } else if (trimmedCmd === 'cv' || trimmedCmd === 'resume') {
+      output = <PDFViewer />;
+    } else if (trimmedCmd === 'socials') {
+      output = <SocialsCommand />;
+    } else if (trimmedCmd === 'neofetch') {
+      output = <NeofetchCommand />;
+    } else if (trimmedCmd === 'themes') {
+      output = <ThemesCommand currentTheme={theme} onThemeChange={setTheme} />;
+    } else if (trimmedCmd.startsWith('themes set ')) {
+      const themeName = trimmedCmd.split('themes set ')[1];
+      if (THEMES[themeName]) {
+        setTheme(themeName);
+        output = <p>Theme changed to: {THEMES[themeName].name}</p>;
+      } else {
+        output = <p className="text-red-400">Theme '{themeName}' not found. Type 'themes' to see available options.</p>;
+      }
+    } else if (trimmedCmd === 'gui') {
+      output = (
+        <div className="space-y-2">
+          <p>Initializing graphical interface...</p>
+          <p className="animate-pulse">🌐 Redirecting...</p>
+          <p className="text-sm opacity-70">(GUI mode coming soon!)</p>
+        </div>
+      );
+    } else if (trimmedCmd === 'clear') {
+      setCommands([]);
+      return;
+    } else if (trimmedCmd === '') {
+      return;
+    } else {
+      output = (
+        <p>
+          Command not found: <span className="font-bold">{cmd}</span>
+          <br />
+          Type <span className="font-bold">'help'</span> for available commands.
+        </p>
+      );
+    }
+
+    setCommands(prev => [...prev, { input: cmd, output, timestamp: new Date() }]);
+  }, [theme]);
+
+  const handleSubmit = (e: React.FormEvent | React.KeyboardEvent) => {
+    e.preventDefault();
+    if (input.trim() && !isProcessing) {
+      setIsProcessing(true);
+      setHistory(prev => [...prev, input]);
+      setHistoryIndex(-1);
+      processCommand(input);
+      setInput('');
+      setTimeout(() => setIsProcessing(false), 300);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      if (history.length > 0) {
+        const newIndex = historyIndex === -1 ? history.length - 1 : Math.max(0, historyIndex - 1);
+        setHistoryIndex(newIndex);
+        setInput(history[newIndex]);
+      }
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      if (historyIndex !== -1) {
+        const newIndex = historyIndex + 1;
+        if (newIndex >= history.length) {
+          setHistoryIndex(-1);
+          setInput('');
+        } else {
+          setHistoryIndex(newIndex);
+          setInput(history[newIndex]);
+        }
+      }
+    }
+  };
+
+  if (isBooting) {
+    return (
+      <div className="min-h-screen flex items-center justify-center p-4" style={{ 
+        backgroundColor: 'var(--bg-color)', 
+        color: 'var(--fg-color)' 
+      }}>
+        <ASCIIBanner onComplete={() => setIsBooting(false)} />
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen p-4 md:p-8" style={{ 
+      backgroundColor: 'var(--bg-color)', 
+      color: 'var(--fg-color)' 
+    }}>
+      {/* Scanline overlay */}
+      <div className="fixed inset-0 pointer-events-none opacity-10 z-50">
+        <div className="scanline"></div>
+      </div>
+
+      <div className="max-w-7xl mx-auto">
+        <div 
+          className="rounded-lg overflow-hidden shadow-2xl backdrop-blur-md"
+          style={{ 
+            background: `linear-gradient(135deg, ${THEMES[theme].secondary}99 0%, ${THEMES[theme].background}cc 100%)`,
+            border: `1px solid ${THEMES[theme].foreground}33`
+          }}
+        >
+          {/* Terminal Header */}
+          <div className="flex items-center gap-2 px-4 py-3 border-b" style={{ 
+            borderColor: `${THEMES[theme].foreground}33` 
+          }}>
+            <div className="flex gap-2">
+              <div className="w-3 h-3 rounded-full bg-red-500"></div>
+              <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+              <div className="w-3 h-3 rounded-full bg-green-500"></div>
+            </div>
+            <div className="flex items-center gap-2 ml-4">
+              <Monitor className="w-4 h-4" />
+              <span className="text-sm font-mono">portfolio@terminal ~ zsh</span>
+            </div>
+          </div>
+
+          {/* Terminal Output */}
+          <div 
+            ref={outputRef}
+            className="p-4 md:p-6 font-mono text-sm h-[calc(100vh-250px)] overflow-y-auto custom-scrollbar"
+            onClick={() => inputRef.current?.focus()}
+          >
+            <p className="mb-4 opacity-70">
+              Welcome to the terminal portfolio. Type <span className="font-bold">'help'</span> to see available commands.
+            </p>
+            
+            {commands.map((cmd, i) => (
+              <div key={i} className="mb-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <ChevronRight className="w-4 h-4" style={{ color: 'var(--accent-color)' }} />
+                  <span className="opacity-70">guest@portfolio:~$</span>
+                  <span className="font-bold">{cmd.input}</span>
+                </div>
+                <div className="ml-6 mb-4">{cmd.output}</div>
+              </div>
+            ))}
+
+            {/* Input Line */}
+            <div className="flex items-center gap-2">
+              <ChevronRight className="w-4 h-4" style={{ color: 'var(--accent-color)' }} />
+              <span className="opacity-70">guest@portfolio:~$</span>
+              <input
+                ref={inputRef}
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault();
+                    handleSubmit(e);
+                  } else {
+                    handleKeyDown(e);
+                  }
+                }}
+                className="flex-1 bg-transparent outline-none font-mono"
+                autoFocus
+                disabled={isProcessing}
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Quick Actions for Mobile */}
+        <div className="mt-4 md:hidden grid grid-cols-3 gap-2">
+          {['help', 'projects', 'socials'].map((cmd) => (
+            <button
+              key={cmd}
+              onClick={() => {
+                setInput(cmd);
+                processCommand(cmd);
+              }}
+              className="px-4 py-2 rounded border text-sm font-mono"
+              style={{ 
+                borderColor: 'var(--fg-color)',
+                color: 'var(--fg-color)'
+              }}
+            >
+              {cmd}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <style jsx>{`
+        .scanline {
+          width: 100%;
+          height: 100vh;
+          background: linear-gradient(
+            rgba(18, 16, 16, 0) 50%,
+            rgba(0, 0, 0, 0.25) 50%
+          );
+          background-size: 100% 4px;
+          animation: scan 8s linear infinite;
+        }
+
+        @keyframes scan {
+          0% {
+            transform: translateY(0);
+          }
+          100% {
+            transform: translateY(4px);
+          }
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 8px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: transparent;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: var(--fg-color);
+          opacity: 0.3;
+          border-radius: 4px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          opacity: 0.5;
+        }
+      `}</style>
+    </div>
+  );
+};
+
+export default Terminal;
