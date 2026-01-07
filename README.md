@@ -152,31 +152,6 @@ Terminal window uses backdrop blur for modern glass effect:
 backdrop-blur-md bg-opacity-10
 ```
 
-## 🚢 Deployment
-
-### Vercel (Recommended)
-```bash
-npm run build
-vercel deploy
-```
-
-### Netlify
-```bash
-npm run build
-netlify deploy --prod --dir=.next
-```
-
-### Docker
-```dockerfile
-FROM node:18-alpine
-WORKDIR /app
-COPY package*.json ./
-RUN npm install
-COPY . .
-RUN npm run build
-EXPOSE 3000
-CMD ["npm", "start"]
-```
 
 ## 🐛 Troubleshooting
 
