@@ -1,0 +1,206 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================
+   THEME SYSTEM — 6 Themes via CSS Variables
+   ============================================ */
+
+/* Theme 1: Dark (Default) — Classic terminal green on dark */
+[data-theme="dark"] {
+  --bg: #0a0e27;
+  --fg: #00ff41;
+  --accent: #00d9ff;
+  --secondary: #1a1f3a;
+}
+
+/* Theme 2: Light — Clean white for accessibility */
+[data-theme="light"] {
+  --bg: #f5f5f5;
+  --fg: #2d3748;
+  --accent: #3182ce;
+  --secondary: #e2e8f0;
+}
+
+/* Theme 3: Blue Matrix — Cyberpunk aesthetic */
+[data-theme="blue-matrix"] {
+  --bg: #0d1b2a;
+  --fg: #00d9ff;
+  --accent: #00ff41;
+  --secondary: #1b263b;
+}
+
+/* Theme 4: Espresso — Warm coffee tones */
+[data-theme="espresso"] {
+  --bg: #2b1d0e;
+  --fg: #e4c07a;
+  --accent: #d4976c;
+  --secondary: #3d2817;
+}
+
+/* Theme 5: Green Goblin — Neon green hacker vibes */
+[data-theme="green-goblin"] {
+  --bg: #0f2027;
+  --fg: #39ff14;
+  --accent: #7fff00;
+  --secondary: #1a3a3a;
+}
+
+/* Theme 6: Ubuntu — Classic purple theme */
+[data-theme="ubuntu"] {
+  --bg: #300a24;
+  --fg: #ffffff;
+  --accent: #e95420;
+  --secondary: #5e2750;
+}
+
+/* ============================================
+   BASE STYLES
+   ============================================ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--fg);
+  font-family: "JetBrains Mono", "Fira Code", "Courier New", monospace;
+  line-height: 1.6;
+  min-height: 100vh;
+  transition: background-color 300ms ease-in-out, color 300ms ease-in-out;
+  overflow-x: hidden;
+}
+
+/* ============================================
+   SCROLLBAR STYLES
+   ============================================ */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--fg);
+  opacity: 0.3;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  opacity: 0.5;
+}
+
+/* ============================================
+   CRT SCANLINE OVERLAY
+   ============================================ */
+.crt-scanlines {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0) 0px,
+    rgba(0, 0, 0, 0) 2px,
+    rgba(0, 0, 0, 0.08) 2px,
+    rgba(0, 0, 0, 0.08) 4px
+  );
+  opacity: 0.4;
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .crt-scanlines {
+    display: none;
+  }
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ============================================
+   GLASSMORPHISM TERMINAL WINDOW
+   ============================================ */
+.terminal-glass {
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--secondary) 60%, transparent) 0%,
+    color-mix(in srgb, var(--bg) 80%, transparent) 100%
+  );
+  border: 1px solid color-mix(in srgb, var(--fg) 20%, transparent);
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.5),
+    0 0 100px color-mix(in srgb, var(--fg) 10%, transparent);
+}
+
+/* ============================================
+   CURSOR BLINK ANIMATION
+   ============================================ */
+@keyframes cursor-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+.cursor-blink {
+  animation: cursor-blink 1s step-end infinite;
+}
+
+/* ============================================
+   TEXT GLOW EFFECT
+   ============================================ */
+.text-glow {
+  text-shadow:
+    0 0 8px color-mix(in srgb, var(--fg) 50%, transparent),
+    0 0 16px color-mix(in srgb, var(--fg) 25%, transparent);
+}
+
+/* ============================================
+   FOCUS STYLES (Accessibility)
+   ============================================ */
+*:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ============================================
+   SELECTION STYLES
+   ============================================ */
+::selection {
+  background: var(--fg);
+  color: var(--bg);
+}
+
+/* ============================================
+   LINK STYLES
+   ============================================ */
+a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: all 200ms ease;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* ============================================
+   TRANSITION UTILITY
+   ============================================ */
+.theme-transition {
+  transition:
+    background-color 300ms ease-in-out,
+    color 300ms ease-in-out,
+    border-color 300ms ease-in-out;
+}
