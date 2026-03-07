@@ -33,7 +33,7 @@
 
 | | Feature | Description |
 |---|---|---|
-| 🎬 | **Cinematic Boot Sequence** | Character-streamed ASCII banner with a retro startup feel |
+| 🎬 | **Boot Sequence** | Character-streamed ASCII banner with a retro startup feel |
 | 🎨 | **6 Hand-Crafted Themes** | Dark, Light, Blue Matrix, Espresso, Green Goblin, Ubuntu |
 | ⌨️ | **Real Terminal UX** | Tab autocomplete, command history (↑/↓), streaming output |
 | 🖼️ | **Project Gallery Modals** | Scrollable image galleries with intersection-synced dot indicators |
