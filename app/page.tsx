@@ -25,6 +25,9 @@ import {
     HelpCircle,
     Layers,
     Award,
+    Trophy,
+    Lightbulb,
+    BookText,
     X,
 } from "lucide-react";
 
@@ -47,6 +50,7 @@ interface Project {
     image: string;
     galleryImages?: string[];
     isMobile?: boolean;
+    date?: string;
 }
 
 interface ThemeConfig {
@@ -73,16 +77,36 @@ const THEMES: ThemeConfig[] = [
 
 const PROJECTS: Project[] = [
     {
-        title: "FloatChat",
-        description:
-            "An end-to-end RAG chatbot using MiniLM embeddings, FAISS semantic search, and knowledge graphs to deliver explainable, source-backed domain Q&A with confidence scoring. Engineered a 3-layer reasoning pipeline with ETL for NetCDF → Supabase, and deployed an MCP-based agentic AI backend with production monitoring.",
-        techStack: ["Python", "FAISS", "MiniLM", "Supabase", "MCP", "Knowledge Graphs"],
-        github: "https://github.com/arnavparekar/Float_Chat",
-        /* TODO: Replace with your actual project screenshot at /public/projects/project1.jpg */
-        image: "/projects/project1.jpg",
-        /* TODO: Add more gallery images for modal, e.g. ["/projects/project1-2.jpg", "/projects/project1-3.jpg"] */
-        galleryImages: ["/projects/project1-2.jpg", "/projects/project1-3.jpg", "/projects/project1-4.jpg"],
+        title: "ICS-Watchdog",
+        description: "A lightweight, containerised passive OT security monitor that sniffs Modbus/TCP traffic in real time without sending a single probe packet. It runs a stateful rule engine on captured data and generates structured JSON and HTML reports with detections mapped to the MITRE ATT&CK® for ICS framework.",
+        techStack: ["Modbus", "Packet Analysis", "MITRE ATT&CK", "Docker", "Python"],
+        github: "https://github.com/arnavparekar/ics-watchdog",
+        image: "/projects/project6.jpg",
+        galleryImages: ["/projects/project6-2.jpg"],
+        // date: "June 2026",
     },
+    {
+        title: "ICS-ZoneAudit",
+        description: "A Python CLI tool that ingests Nmap XML scans of industrial networks, classifies assets into IEC 62443 security zones (Purdue Model), detects zone boundary and conduit violations, scores assets against hardening checklists, and generates structured JSON and HTML compliance reports. It turns IEC 62443 zone and conduit modelling from theory into practice by showing how real or simulated network topologies map to the standard.",
+        techStack: ["Nmap", "Audit and Compliance", "IEC62443", "NIST", "Docker", "Python"],
+        github: "https://github.com/arnavparekar/ics-zoneaudit",
+        image: "/projects/project7.jpg",
+        galleryImages: ["/projects/project7-2.jpg", "/projects/project7-3.jpg"],
+        // date: "June 2026",
+    },
+
+    // {
+    //     title: "FloatChat",
+    //     description:
+    //         "An end-to-end RAG chatbot using MiniLM embeddings, FAISS semantic search, and knowledge graphs to deliver explainable, source-backed domain Q&A with confidence scoring. Engineered a 3-layer reasoning pipeline with ETL for NetCDF → Supabase, and deployed an MCP-based agentic AI backend with production monitoring.",
+    //     techStack: ["Python", "FAISS", "MiniLM", "Supabase", "MCP", "Knowledge Graphs"],
+    //     github: "https://github.com/arnavparekar/Float_Chat",
+    //     /* TODO: Replace with your actual project screenshot at /public/projects/project1.jpg */
+    //     image: "/projects/project1.jpg",
+    //     /* TODO: Add more gallery images for modal, e.g. ["/projects/project1-2.jpg", "/projects/project1-3.jpg"] */
+    //     galleryImages: ["/projects/project1-2.jpg", "/projects/project1-3.jpg", "/projects/project1-4.jpg"],
+    // },
+
     {
         title: "Sashakt",
         description:
@@ -130,73 +154,153 @@ const PROJECTS: Project[] = [
 
 /* Valid single-word commands for strict matching */
 const SINGLE_COMMANDS = [
-    "help", "about", "education", "experience", "projects",
-    "skills", "contact",
-    "resume", "cv", "neofetch", "clear", "gui", "espresso", "banner", "details",
+    "details", "help", "about", "education", "experience", "projects",
+    "skills", "socials", "achievements",
+    "resume", "cv", "clear", "gui", "espresso", "banner",
 ];
 
 /* All command names for autocomplete */
 const AUTOCOMPLETE_COMMANDS = [
-    "help", "about", "education", "experience", "projects",
-    "skills", "contact",
-    "resume", "cv", "neofetch", "themes", "themes set",
-    "clear", "gui", "espresso", "banner", "details",
+    "details", "help", "about", "education", "experience", "projects",
+    "skills", "socials", "achievements",
+    "resume", "cv", "themes", "themes set",
+    "clear", "gui", "espresso", "banner",
 ];
 
 const SKILLS = {
     "Programming Languages": {
-        proficient: ["JavaScript", "TypeScript", "C/C++"],
-        intermediate: ["Java", "Python"],
+        proficient: ["Python", "C/C++", "JavaScript", "TypeScript"],
+        intermediate: ["Java", "Bash/Shell Scripting", "SQL"],
     },
-    Development: [
-        "React", "Next.js", "Vue", "HTML5", "CSS3", "Tailwind CSS",
-        "Node.js", "Express", "Flask", "FastAPI", "Flutter",
+    "OT / ICS Security": {
+        protocols: ["Modbus/TCP", "DNP3", "OPC UA", "EtherNet/IP"],
+        frameworks: ["MITRE ATT&CK for ICS", "IEC 62443", "NIST SP 800-82", "Purdue Model"],
+        tools: ["Wireshark", "tcpdump", "Nmap", "OpenVAS", "Nessus"],
+        concepts: [
+            "SCADA Security",
+            "PLC Hardening",
+            "Zone & Conduit Design",
+            "Network Segmentation",
+            "OT Threat Detection",
+            "Asset Inventory & Risk Scoring",
+        ],
+    },
+    "Cybersecurity (IT)": [
+        "ISO 27001",
+        "OSINT & Reconnaissance",
+        "Vulnerability Assessment",
+        "Risk Assessment",
     ],
-    "Cloud Technologies": ["AWS", "Google Cloud Platform", "Docker", "Git/GitHub", "GitLab"],
-    Cybersecurity: [
-        "ISO 27001", "MITRE ATT&CK", "Risk Assessment",
-        "Nmap", "Nessus", "OpenVAS", "Metasploit",
-        "Wireshark", "tcpdump", "Maltego", "OSINT",
+    "AI / ML": [
+        "Supervised Learning",
+        "Anomaly Detection",
+        "scikit-learn",
+        "TensorFlow (basics)",
+        "Pandas & NumPy",
+    ],
+    "Software Development": {
+        frontend: ["React", "Next.js", "Vue", "HTML5", "CSS3", "Tailwind CSS"],
+        backend: ["Node.js", "Express", "Flask", "FastAPI"],
+        mobile: ["Flutter"],
+    },
+    "DevOps & Cloud": [
+        "Docker",
+        "Git / GitHub / GitLab",
+        "AWS",
+        "Google Cloud Platform",
+        "CI/CD Pipelines",
+    ],
+    "Tools & Environments": [
+        "VS Code",
+        "Postman",
+        "Burp Suite",
+        "VirtualBox/VMware",
+        "Containerized SCADA Labs",
     ],
 };
 
+const ACHIEVEMENTS = [
+    {
+        category: "Hackathons",
+        icon: Trophy,
+        items: [
+            {
+                title: "Bloom Energy Hackfest Winner (National)",
+                description: "Developed a cybersecurity solution with an AI first approach for IDS and secured an internship.",
+                date: "April 2026"
+            },
+            {
+                title: "IEEE YESIST Finalist (Global)",
+                description: "Won the prelims and got selected as global finalists for developing intelligent travel safety solution.",
+                date: "October 2026"
+            },
+            {
+                title: "IBM TechXchange Hackathon Finalist (Global)",
+                description: "Achieved global finalist recognition in IBM TechXChange among 1500+ participants for developing an AI-driven justice platform.",
+                date: "December 2024"
+            }
+        ]
+    },
+    {
+        category: "Patents",
+        icon: Lightbulb,
+        items: [
+            {
+                title: "System for Monitoring Vehicle Speed in Traffic Environments and Method of Speed Estimation",
+                description: "Filed & Published | Application No: 202541130222",
+                date: "January 2026"
+            }
+        ]
+    },
+    {
+        category: "Publications",
+        icon: BookText,
+        items: [
+            {
+                title: "An Adaptive Hybrid Disk Scheduling Algorithm for Fair and Efficient Storage Systems",
+                description: "2026 6th International Conference on Expert Clouds and Applications (ICOECA), Bengaluru, India, 2026, pp. 1088-1093, doi: 10.1109/ICOECA68095.2026.11485612.",
+                date: "April 2026"
+            }
+        ]
+    }
+];
+
 const COMMANDS_LIST: { command: string; description: string }[] = [
+    { command: "details", description: "Tips & shortcuts for this terminal" },
     { command: "help", description: "Display all available commands" },
     { command: "about", description: "Learn more about me" },
     { command: "education", description: "View educational background" },
     { command: "experience", description: "View work experience" },
     { command: "projects", description: "Browse my project portfolio" },
     { command: "skills", description: "View technical skills" },
-    // { command: "publications", description: "View patents and publications" },
-    // { command: "certifications", description: "View certifications" },
-    { command: "contact", description: "Get my contact information" },
+    { command: "achievements", description: "View my hackathons, patents, and publications" },
+    { command: "socials", description: "Get my contact information" },
     { command: "resume", description: "View or download my resume" },
-    { command: "neofetch", description: "Display system info (Linux-style)" },
     { command: "themes", description: "List available color themes" },
     { command: "themes set <name>", description: "Switch to a specific theme" },
     { command: "banner", description: "Display the ASCII art banner" },
-    { command: "details", description: "Tips & shortcuts for this terminal" },
     { command: "clear", description: "Clear terminal history" },
     { command: "gui", description: "Switch to GUI portfolio (coming soon)" },
 ];
 
 /* ASCII art banner — desktop version */
 const ASCII_BANNER_DESKTOP = `
-╔═════════════════════════════════════════════════════════════════════════════════════╗
-║                                                                                     ║
-║    :::'###::::'########::'##::: ##:'########:'##:::'##::::'###::::'########:::::    ║
-║    ::'## ##::: ##.... ##: ###:: ##: ##.....:: ##::'##::::'## ##::: ##.... ##::::    ║
-║    :'##:. ##:: ##:::: ##: ####: ##: ##::::::: ##:'##::::'##:. ##:: ##:::: ##::::    ║
-║    '##:::. ##: ########:: ## ## ##: ######::: #####::::'##:::. ##: ########:::::    ║
-║     #########: ##.. ##::: ##. ####: ##...:::: ##. ##::: #########: ##.. ##::::::    ║
-║     ##.... ##: ##::. ##:: ##:. ###: ##::::::: ##:. ##:: ##.... ##: ##::. ##:::::    ║
-║     ##:::: ##: ##:::. ##: ##::. ##: ########: ##::. ##: ##:::: ##: ##:::. ##::::    ║
-║    ..:::::..::..:::::..::..::::..::........::..::::..::..:::::..::..:::::..:::::    ║
-║                                                                                     ║
-║    Developer • Cybersecurity Enthusiast • Builder                                   ║
-║    Portfolio of Arnav Parekar                                                       ║
-║                                                                                     ║
-╚═════════════════════════════════════════════════════════════════════════════════════╝`;
+....###....########..##....##.########.##....##....###....########.
+...##.##...##.....##.###...##.##.......##...##....##.##...##.....##
+..##...##..##.....##.####..##.##.......##..##....##...##..##.....##
+.##.....##.########..##.##.##.######...#####....##.....##.########.
+.#########.##...##...##..####.##.......##..##...#########.##...##..
+.##.....##.##....##..##...###.##.......##...##..##.....##.##....##.
+.##.....##.##.....##.##....##.########.##....##.##.....##.##.....##`;
+
+// const ASCII_BANNER_DESKTOP = `
+// ....###....########..##....##....###....##.....##.......########.....###....########..########.##....##....###....########.
+// ...##.##...##.....##.###...##...##.##...##.....##.......##.....##...##.##...##.....##.##.......##...##....##.##...##.....##
+// ..##...##..##.....##.####..##..##...##..##.....##.......##.....##..##...##..##.....##.##.......##..##....##...##..##.....##
+// .##.....##.########..##.##.##.##.....##.##.....##.......########..##.....##.########..######...#####....##.....##.########.
+// .#########.##...##...##..####.#########..##...##........##........#########.##...##...##.......##..##...#########.##...##..
+// .##.....##.##....##..##...###.##.....##...##.##.........##........##.....##.##....##..##.......##...##..##.....##.##....##.
+// .##.....##.##.....##.##....##.##.....##....###..........##........##.....##.##.....##.########.##....##.##.....##.##.....##`;
 
 /* ASCII art banner — mobile-friendly compact version */
 const ASCII_BANNER_MOBILE = `
@@ -418,12 +522,23 @@ function ProjectModal({
 
                 {/* Fixed text content below images */}
                 <div className="p-5 space-y-4 overflow-y-auto">
-                    <h3
-                        className="text-xl font-semibold"
-                        style={{ color: "var(--fg)" }}
-                    >
-                        {project.title}
-                    </h3>
+                    <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
+                        <h3
+                            className="text-xl font-semibold"
+                            style={{ color: "var(--fg)" }}
+                        >
+                            {project.title}
+                        </h3>
+                        {project.date && (
+                            <span className="text-xs px-2 py-1 rounded border whitespace-nowrap shrink-0 w-fit" style={{
+                                borderColor: "color-mix(in srgb, var(--accent) 50%, transparent)",
+                                color: "var(--accent)",
+                                background: "color-mix(in srgb, var(--accent) 10%, transparent)"
+                            }}>
+                                {project.date}
+                            </span>
+                        )}
+                    </div>
                     <p
                         className="text-sm leading-relaxed"
                         style={{ color: "var(--fg)", opacity: 0.8 }}
@@ -527,12 +642,23 @@ function ProjectCard({
 
             {/* Card Content */}
             <div className="p-4 space-y-3">
-                <h3
-                    className="text-lg font-semibold"
-                    style={{ color: "var(--fg)" }}
-                >
-                    {project.title}
-                </h3>
+                <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2">
+                    <h3
+                        className="text-lg font-semibold"
+                        style={{ color: "var(--fg)" }}
+                    >
+                        {project.title}
+                    </h3>
+                    {project.date && (
+                        <span className="text-xs px-2 py-1 rounded border whitespace-nowrap shrink-0 w-fit" style={{
+                            borderColor: "color-mix(in srgb, var(--accent) 50%, transparent)",
+                            color: "var(--accent)",
+                            background: "color-mix(in srgb, var(--accent) 10%, transparent)"
+                        }}>
+                            {project.date}
+                        </span>
+                    )}
+                </div>
                 <p
                     className="text-sm leading-relaxed line-clamp-3"
                     style={{ color: "var(--fg)", opacity: 0.75 }}
@@ -572,6 +698,112 @@ function ProjectCard({
     );
 }
 
+function ThemesList({ onSetTheme }: { onSetTheme: (name: string) => void }) {
+    const [activeTheme, setActiveTheme] = useState(() => {
+        if (typeof document !== "undefined") {
+            return document.documentElement.getAttribute("data-theme") || "espresso";
+        }
+        return "espresso";
+    });
+
+    useEffect(() => {
+        const checkTheme = () => {
+            setActiveTheme(document.documentElement.getAttribute("data-theme") || "espresso");
+        };
+        const observer = new MutationObserver(checkTheme);
+        observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+        return () => observer.disconnect();
+    }, []);
+
+    return (
+        <div className="space-y-6 max-w-2xl">
+            <div className="flex items-center gap-3 mb-2">
+                <Palette size={22} style={{ color: "var(--accent)" }} />
+                <h2 className="text-xl font-semibold" style={{ color: "var(--accent)" }}>
+                    Available Themes
+                </h2>
+            </div>
+            <div className="space-y-3">
+                {THEMES.map((theme, idx) => {
+                    const isActive = activeTheme === theme.name;
+                    return (
+                        <motion.button
+                            initial={{ opacity: 0, x: -10 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: idx * 0.05, duration: 0.3 }}
+                            key={theme.name}
+                            onClick={() => onSetTheme(theme.name)}
+                            className={`group relative w-full flex items-center justify-between p-4 rounded-xl border transition-all duration-300 outline-none focus-visible:ring-2 ${isActive
+                                ? "shadow-lg scale-[1.02]"
+                                : "hover:scale-[1.01] hover:shadow-md"
+                                }`}
+                            style={{
+                                borderColor: isActive ? theme.accent : "color-mix(in srgb, var(--fg) 15%, transparent)",
+                                background: isActive
+                                    ? `linear-gradient(135deg, color-mix(in srgb, ${theme.secondary} 30%, transparent), color-mix(in srgb, ${theme.bg} 80%, transparent))`
+                                    : "color-mix(in srgb, var(--secondary) 10%, transparent)",
+                            }}
+                        >
+                            <div className="flex items-center gap-4">
+                                {/* Custom Radio Button */}
+                                <div
+                                    className={`flex items-center justify-center w-8 h-8 rounded-full border transition-all duration-300 ${isActive ? 'scale-110' : 'group-hover:scale-110'}`}
+                                    style={{
+                                        borderColor: isActive ? theme.accent : "color-mix(in srgb, var(--fg) 20%, transparent)",
+                                        background: isActive ? theme.bg : "transparent"
+                                    }}
+                                >
+                                    {isActive ? (
+                                        <Palette size={14} style={{ color: theme.accent }} />
+                                    ) : (
+                                        <div className="w-2 h-2 rounded-full transition-transform duration-300 group-hover:scale-150" style={{ background: "color-mix(in srgb, var(--fg) 20%, transparent)" }} />
+                                    )}
+                                </div>
+
+                                {/* Text Info */}
+                                <div className="text-left">
+                                    <p className="font-semibold text-base transition-colors duration-300" style={{ color: isActive ? theme.accent : "var(--fg)" }}>
+                                        {theme.label}
+                                    </p>
+                                    <p className="text-xs mt-0.5 font-mono" style={{ opacity: 0.5 }}>
+                                        themes set {theme.name}
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/* Color Palette Display */}
+                            <div className="flex items-center gap-1.5 opacity-80 group-hover:opacity-100 transition-opacity duration-300">
+                                {[theme.bg, theme.secondary, theme.fg, theme.accent].map((color, i) => (
+                                    <div
+                                        key={i}
+                                        className="w-5 h-5 sm:w-6 sm:h-6 rounded-md shadow-sm transition-transform duration-300 group-hover:-translate-y-1"
+                                        style={{
+                                            background: color,
+                                            border: `1px solid color-mix(in srgb, var(--fg) ${i === 0 ? '20%' : '10%'}, transparent)`,
+                                            transitionDelay: `${i * 30}ms`
+                                        }}
+                                    />
+                                ))}
+                            </div>
+
+                            {/* Active Glow Effect */}
+                            {isActive && (
+                                <div
+                                    className="absolute inset-0 rounded-xl pointer-events-none transition-opacity duration-500"
+                                    style={{ boxShadow: `inset 0 0 20px color-mix(in srgb, ${theme.accent} 20%, transparent)` }}
+                                />
+                            )}
+                        </motion.button>
+                    );
+                })}
+            </div>
+            <p className="text-sm" style={{ opacity: 0.5 }}>
+                Usage: themes set &lt;name&gt; (e.g., themes set espresso)
+            </p>
+        </div>
+    );
+}
+
 /* ============================================
    MAIN TERMINAL COMPONENT
    ============================================ */
@@ -583,12 +815,13 @@ export default function TerminalPortfolio() {
     const [historyIndex, setHistoryIndex] = useState(-1);
     const [isBooting, setIsBooting] = useState(true);
     const [bootText, setBootText] = useState("");
-    const [currentTheme, setCurrentTheme] = useState("dark");
+    const [currentTheme, setCurrentTheme] = useState("espresso");
     const [isProcessing, setIsProcessing] = useState(false);
     const [idCounter, setIdCounter] = useState(0);
     const [modalProject, setModalProject] = useState<Project | null>(null);
     const [isMobile, setIsMobile] = useState(false);
     const [inputFocused, setInputFocused] = useState(false);
+    const [showWelcome, setShowWelcome] = useState(true);
 
     const inputRef = useRef<HTMLInputElement>(null);
     const outputRef = useRef<HTMLDivElement>(null);
@@ -604,17 +837,15 @@ export default function TerminalPortfolio() {
 
     /* ------- THEME MANAGEMENT ------- */
     useEffect(() => {
-        const saved = localStorage.getItem("terminal-theme");
-        if (saved && THEMES.some((t) => t.name === saved)) {
-            setCurrentTheme(saved);
-            document.documentElement.setAttribute("data-theme", saved);
-        }
+        // Enforce default theme on reload/new page load
+        setCurrentTheme("espresso");
+        document.documentElement.setAttribute("data-theme", "espresso");
+        localStorage.removeItem("terminal-theme");
     }, []);
 
     const setTheme = useCallback((themeName: string) => {
         setCurrentTheme(themeName);
         document.documentElement.setAttribute("data-theme", themeName);
-        localStorage.setItem("terminal-theme", themeName);
     }, []);
 
     /* ------- BOOT SEQUENCE ------- */
@@ -711,7 +942,7 @@ export default function TerminalPortfolio() {
             /* === ABOUT === */
             if (trimmed === "about") {
                 return (
-                    <div className="space-y-4 max-w-3xl">
+                    <div className="space-y-4 max-w-4xl">
                         <div className="flex items-center gap-2 mb-2">
                             <User size={20} style={{ color: "var(--accent)" }} />
                             <h2
@@ -722,13 +953,13 @@ export default function TerminalPortfolio() {
                             </h2>
                         </div>
                         <p style={{ color: "var(--fg)", opacity: 0.9 }} className="leading-relaxed">
-                            {`I'm Arnav Parekar, a developer passionate about building meaningful tech trying to create real-world impact. With experience in Flutter, Web Development, Cloud technologies and cybersecurity (especially OT security), I love combining clean product thinking with strong technical foundations.`}
+                            {`I'm Arnav Parekar, a developer who likes building things that actually matter, whether that's a clean web app or a threat detection system for industrial infrastructure. My work spans software development and OT/ICS cybersecurity. I've built across Flutter, web, and cloud on one side, and on the other I work with industrial protocols, ICS threat detection, and frameworks like IEC 62443 and MITRE ATT&CK for ICS.`}
                         </p >
                         <p style={{ color: "var(--fg)", opacity: 0.9 }} className="leading-relaxed">
-                            {`I'm currently focused on growing into a software developer while continuing to build projects that solve real problems. I'm open to internship opportunities and full-time roles.`}
+                            {`I try to bring the same product thinking to both. I'm currently focused on growing into a software developer while continuing to build projects that solve real problems. I'm open to internships and full-time roles where I can build and ship.`}
                         </p>
                         <p style={{ color: "var(--fg)", opacity: 0.9 }} className="leading-relaxed">
-                            {`My hobbies include travelling, cubing, playing the guitar and racket sports.`}
+                            {`My hobbies include cubing, guitar, and racket sports.`}
                         </p>
                         <div
                             className="flex items-center gap-2 text-sm mt-4 pt-3 border-t"
@@ -744,7 +975,7 @@ export default function TerminalPortfolio() {
             /* === EDUCATION === */
             if (trimmed === "education") {
                 return (
-                    <div className="space-y-4 max-w-3xl">
+                    <div className="space-y-4 max-w-4xl">
                         <div className="flex items-center gap-2 mb-2">
                             <GraduationCap size={20} style={{ color: "var(--accent)" }} />
                             <h2 className="text-xl font-semibold" style={{ color: "var(--accent)" }}>
@@ -758,15 +989,19 @@ export default function TerminalPortfolio() {
                                 background: "color-mix(in srgb, var(--secondary) 40%, transparent)",
                             }}
                         >
-                            <h3 className="font-semibold text-lg" style={{ color: "var(--fg)" }}>
-                                Vellore Institute of Technology Chennai
-                            </h3>
-                            <p style={{ color: "var(--accent)" }} className="mt-1">
+                            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-1">
+                                <h3 className="font-semibold text-lg" style={{ color: "var(--fg)" }}>
+                                    Vellore Institute of Technology Chennai
+                                </h3>
+                                <span className="text-sm" style={{ color: "var(--accent)" }}>
+                                    2023 — 2027
+                                </span>
+                            </div>
+                            <p style={{ color: "var(--accent)" }}>
                                 Bachelor of Technology — Computer Science and Engineering
                             </p>
-                            <div className="flex flex-wrap gap-4 mt-3 text-sm" style={{ opacity: 0.8 }}>
-                                <span>CGPA: <strong>9.19 / 10.0</strong></span>
-                                <span>2023 — 2027</span>
+                            <div className="mt-3 text-sm" style={{ opacity: 0.8 }}>
+                                <span>CGPA: <strong>9.16 / 10.0</strong></span>
                             </div>
                             <div className="mt-4">
                                 <p className="font-medium text-sm mb-2" style={{ color: "var(--accent)" }}>
@@ -804,7 +1039,7 @@ export default function TerminalPortfolio() {
             /* === EXPERIENCE === */
             if (trimmed === "experience") {
                 return (
-                    <div className="space-y-4 max-w-3xl">
+                    <div className="space-y-4 max-w-4xl">
                         <div className="flex items-center gap-2 mb-2">
                             <Briefcase size={20} style={{ color: "var(--accent)" }} />
                             <h2 className="text-xl font-semibold" style={{ color: "var(--accent)" }}>
@@ -847,14 +1082,14 @@ export default function TerminalPortfolio() {
             /* === PROJECTS === */
             if (trimmed === "projects") {
                 return (
-                    <div className="space-y-4">
+                    <div className="space-y-4 w-full">
                         <div className="flex items-center gap-2 mb-2">
                             <FolderGit2 size={20} style={{ color: "var(--accent)" }} />
                             <h2 className="text-xl font-semibold" style={{ color: "var(--accent)" }}>
                                 Featured Projects
                             </h2>
                         </div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                             {PROJECTS.map((project) => (
                                 <ProjectCard key={project.title} project={project} onOpenModal={setModalProject} />
                             ))}
@@ -866,14 +1101,14 @@ export default function TerminalPortfolio() {
             /* === SKILLS === */
             if (trimmed === "skills") {
                 return (
-                    <div className="space-y-4 max-w-4xl">
+                    <div className="space-y-4 w-full">
                         <div className="flex items-center gap-2 mb-2">
                             <Code2 size={20} style={{ color: "var(--accent)" }} />
                             <h2 className="text-xl font-semibold" style={{ color: "var(--accent)" }}>
                                 Technical Skills
                             </h2>
                         </div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                             {Object.entries(SKILLS).map(([category, skills]) => (
                                 <div
                                     key={category}
@@ -887,46 +1122,29 @@ export default function TerminalPortfolio() {
                                         {category}
                                     </h3>
                                     {typeof skills === "object" && !Array.isArray(skills) ? (
-                                        <div className="space-y-2">
-                                            <div>
-                                                <span className="text-xs font-medium" style={{ opacity: 0.6 }}>
-                                                    PROFICIENT
-                                                </span>
-                                                <div className="flex flex-wrap gap-2 mt-1">
-                                                    {(skills as { proficient: string[]; intermediate: string[] }).proficient.map((s) => (
-                                                        <span
-                                                            key={s}
-                                                            className="text-sm px-3 py-1 rounded border font-medium"
-                                                            style={{
-                                                                borderColor: "var(--accent)",
-                                                                color: "var(--accent)",
-                                                            }}
-                                                        >
-                                                            {s}
-                                                        </span>
-                                                    ))}
+                                        <div className="space-y-3">
+                                            {Object.entries(skills).map(([subCategory, subSkills]) => (
+                                                <div key={subCategory}>
+                                                    <span className="text-xs font-medium uppercase" style={{ opacity: 0.6 }}>
+                                                        {subCategory}
+                                                    </span>
+                                                    <div className="flex flex-wrap gap-2 mt-1">
+                                                        {(subSkills as string[]).map((s) => (
+                                                            <span
+                                                                key={s}
+                                                                className="text-sm px-3 py-1 rounded border font-medium"
+                                                                style={{
+                                                                    borderColor: subCategory === "proficient" ? "var(--accent)" : "color-mix(in srgb, var(--fg) 40%, transparent)",
+                                                                    color: subCategory === "proficient" ? "var(--accent)" : "var(--fg)",
+                                                                    opacity: subCategory === "proficient" ? 1 : 0.8,
+                                                                }}
+                                                            >
+                                                                {s}
+                                                            </span>
+                                                        ))}
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div>
-                                                <span className="text-xs font-medium" style={{ opacity: 0.6 }}>
-                                                    INTERMEDIATE
-                                                </span>
-                                                <div className="flex flex-wrap gap-2 mt-1">
-                                                    {(skills as { proficient: string[]; intermediate: string[] }).intermediate.map((s) => (
-                                                        <span
-                                                            key={s}
-                                                            className="text-sm px-3 py-1 rounded border"
-                                                            style={{
-                                                                borderColor: "color-mix(in srgb, var(--fg) 40%, transparent)",
-                                                                color: "var(--fg)",
-                                                                opacity: 0.8,
-                                                            }}
-                                                        >
-                                                            {s}
-                                                        </span>
-                                                    ))}
-                                                </div>
-                                            </div>
+                                            ))}
                                         </div>
                                     ) : (
                                         <div className="flex flex-wrap gap-2">
@@ -952,88 +1170,78 @@ export default function TerminalPortfolio() {
                 );
             }
 
-            /* === PUBLICATIONS === */
-            // if (trimmed === "publications") {
-            //     return (
-            //         <div className="space-y-4 max-w-3xl">
-            //             <div className="flex items-center gap-2 mb-2">
-            //                 <Award size={20} style={{ color: "var(--accent)" }} />
-            //                 <h2 className="text-xl font-semibold" style={{ color: "var(--accent)" }}>
-            //                     Publications & Patents
-            //                 </h2>
-            //             </div>
-            //             <div
-            //                 className="p-4 rounded-lg border"
-            //                 style={{
-            //                     borderColor: "color-mix(in srgb, var(--fg) 20%, transparent)",
-            //                     background: "color-mix(in srgb, var(--secondary) 40%, transparent)",
-            //                 }}
-            //             >
-            //                 <h3 className="font-semibold" style={{ color: "var(--fg)" }}>
-            //                     Patent — Indian Patent Office
-            //                 </h3>
-            //                 <p className="mt-2" style={{ color: "var(--accent)" }}>
-            //                     System for monitoring vehicle speed in traffic environments and method of speed estimation
-            //                 </p>
-            //                 <div className="flex flex-wrap gap-4 mt-2 text-sm" style={{ opacity: 0.8 }}>
-            //                     <span>Patent No: 202541130222</span>
-            //                     <span>Filed: 2nd January 2026</span>
-            //                     <span>Status: Filed</span>
-            //                 </div>
-            //             </div>
-            //         </div>
-            //     );
-            // }
-
-            /* === CERTIFICATIONS === */
-            // if (trimmed === "certifications") {
-            //     return (
-            //         <div className="space-y-4 max-w-3xl">
-            //             <div className="flex items-center gap-2 mb-2">
-            //                 <BookOpen size={20} style={{ color: "var(--accent)" }} />
-            //                 <h2 className="text-xl font-semibold" style={{ color: "var(--accent)" }}>
-            //                     Certifications
-            //                 </h2>
-            //             </div>
-            //             <div className="space-y-3">
-            //                 {[
-            //                     { name: "CISA 210W 01-11", issuer: "CISA", date: "23/06/2025" },
-            //                     {
-            //                         name: "Supervised Machine Learning: Regression and Classification",
-            //                         issuer: "DeepLearning.ai",
-            //                         date: "4/10/2024",
-            //                     },
-            //                 ].map((cert) => (
-            //                     <div
-            //                         key={cert.name}
-            //                         className="p-3 rounded-lg border"
-            //                         style={{
-            //                             borderColor: "color-mix(in srgb, var(--fg) 20%, transparent)",
-            //                             background: "color-mix(in srgb, var(--secondary) 40%, transparent)",
-            //                         }}
-            //                     >
-            //                         <p className="font-semibold" style={{ color: "var(--fg)" }}>
-            //                             {cert.name}
-            //                         </p>
-            //                         <div className="flex gap-4 mt-1 text-sm" style={{ opacity: 0.8 }}>
-            //                             <span>Issuer: {cert.issuer}</span>
-            //                             <span>Date: {cert.date}</span>
-            //                         </div>
-            //                     </div>
-            //                 ))}
-            //             </div>
-            //         </div>
-            //     );
-            // }
-
-            /* === CONTACT === */
-            if (trimmed === "contact") {
+            /* === ACHIEVEMENTS === */
+            if (trimmed === "achievements") {
                 return (
-                    <div className="space-y-4 max-w-3xl">
+                    <div className="space-y-6 w-full">
+                        <div className="flex items-center gap-2 mb-2">
+                            <Award size={20} style={{ color: "var(--accent)" }} />
+                            <h2 className="text-xl font-semibold" style={{ color: "var(--accent)" }}>
+                                Achievements
+                            </h2>
+                        </div>
+                        <div className="space-y-8">
+                            {ACHIEVEMENTS.map((category) => (
+                                <div key={category.category} className="space-y-3">
+                                    <h3 className="text-lg font-medium flex items-center gap-2" style={{ color: "var(--fg)" }}>
+                                        <category.icon size={18} style={{ color: "var(--accent)" }} />
+                                        {category.category}
+                                    </h3>
+                                    <div className={`grid gap-4 mt-2 ${category.items.length === 1
+                                        ? "grid-cols-1"
+                                        : category.items.length === 2
+                                            ? "grid-cols-1 md:grid-cols-2"
+                                            : "grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+                                        }`}>
+                                        {category.items.map((item, i) => (
+                                            <motion.div
+                                                key={i}
+                                                initial={{ opacity: 0, x: -10 }}
+                                                animate={{ opacity: 1, x: 0 }}
+                                                transition={{ delay: i * 0.1 }}
+                                                className="p-4 rounded-lg border relative overflow-hidden"
+                                                style={{
+                                                    borderColor: "color-mix(in srgb, var(--fg) 20%, transparent)",
+                                                    background: "color-mix(in srgb, var(--secondary) 20%, transparent)",
+                                                }}
+                                            >
+                                                <div className="flex flex-col gap-3 relative z-10 h-full">
+                                                    <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
+                                                        <h4 className="font-semibold leading-snug" style={{ color: "var(--accent)" }}>
+                                                            {item.title}
+                                                        </h4>
+                                                        {item.date && (
+                                                            <span className="text-xs px-2 py-1 rounded border whitespace-nowrap shrink-0 w-fit" style={{
+                                                                borderColor: "color-mix(in srgb, var(--accent) 50%, transparent)",
+                                                                color: "var(--accent)",
+                                                                background: "color-mix(in srgb, var(--accent) 10%, transparent)"
+                                                            }}>
+                                                                {item.date}
+                                                            </span>
+                                                        )}
+                                                    </div>
+                                                    <p className="text-sm leading-relaxed mt-auto" style={{ color: "var(--fg)", opacity: 0.8 }}>
+                                                        {item.description}
+                                                    </p>
+                                                </div>
+                                            </motion.div>
+                                        ))}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                );
+            }
+
+            /* === SOCIALS === */
+            if (trimmed === "socials") {
+                return (
+                    <div className="space-y-4 max-w-4xl">
                         <div className="flex items-center gap-2 mb-2">
                             <Phone size={20} style={{ color: "var(--accent)" }} />
                             <h2 className="text-xl font-semibold" style={{ color: "var(--accent)" }}>
-                                Contact Information
+                                Socials
                             </h2>
                         </div>
                         <div className="space-y-3">
@@ -1068,18 +1276,32 @@ export default function TerminalPortfolio() {
                                     href={link.href}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="flex items-center gap-3 p-3 rounded-lg border transition-all hover:translate-x-2"
+                                    className="group flex items-center gap-3 p-3 rounded-lg border transition-all duration-300 hover:-translate-y-1 hover:shadow-md hover:no-underline"
                                     style={{
                                         borderColor: "color-mix(in srgb, var(--fg) 20%, transparent)",
                                         background: "color-mix(in srgb, var(--secondary) 30%, transparent)",
                                         color: "var(--fg)",
                                     }}
                                 >
-                                    <span style={{ color: "var(--accent)" }}>{link.icon}</span>
+                                    <span
+                                        className="transition-transform duration-300 group-hover:scale-110"
+                                        style={{ color: "var(--accent)" }}
+                                    >
+                                        {link.icon}
+                                    </span>
                                     <span className="font-medium">{link.label}</span>
-                                    <span style={{ opacity: 0.7 }}>—</span>
-                                    <span style={{ color: "var(--accent)" }}>{link.value}</span>
-                                    <ExternalLink size={14} style={{ opacity: 0.5, marginLeft: "auto" }} />
+                                    <span style={{ opacity: 0.5 }}>—</span>
+                                    <span
+                                        className="transition-colors duration-300 group-hover:brightness-125"
+                                        style={{ color: "var(--accent)" }}
+                                    >
+                                        {link.value}
+                                    </span>
+                                    <ExternalLink
+                                        size={14}
+                                        className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"
+                                        style={{ opacity: 0.5, marginLeft: "auto" }}
+                                    />
                                 </a>
                             ))}
                         </div>
@@ -1090,7 +1312,7 @@ export default function TerminalPortfolio() {
             /* === RESUME / CV === */
             if (baseCmd === "resume" || baseCmd === "cv") {
                 return (
-                    <div className="space-y-4 max-w-3xl">
+                    <div className="space-y-4 max-w-5xl">
                         <div className="flex items-center gap-2 mb-2">
                             <FileText size={20} style={{ color: "var(--accent)" }} />
                             <h2 className="text-xl font-semibold" style={{ color: "var(--accent)" }}>
@@ -1145,131 +1367,11 @@ export default function TerminalPortfolio() {
                 );
             }
 
-            /* === NEOFETCH === */
-            if (trimmed === "neofetch") {
-                const sysInfo = [
-                    { label: "OS", value: typeof navigator !== "undefined" ? navigator.platform || "Web" : "Web" },
-                    { label: "Browser", value: typeof navigator !== "undefined" ? navigator.userAgent.split(" ").pop()?.split("/")[0] || "Browser" : "Browser" },
-                    {
-                        label: "Resolution",
-                        value: typeof window !== "undefined" ? `${window.innerWidth}×${window.innerHeight}` : "N/A",
-                    },
-                    { label: "Language", value: typeof navigator !== "undefined" ? navigator.language : "en-US" },
-                    { label: "Theme", value: THEMES.find((t) => t.name === currentTheme)?.label || currentTheme },
-                ];
 
-                // const techStack = [
-                //     { icon: "⚛️", name: "React / Next.js" },
-                //     { icon: "📘", name: "TypeScript" },
-                //     { icon: "🎨", name: "Tailwind CSS" },
-                //     { icon: "🐍", name: "Python / Flask" },
-                //     { icon: "📱", name: "Flutter / Dart" },
-                //     { icon: "☁️", name: "AWS / GCP" },
-                //     { icon: "🐳", name: "Docker" },
-                //     { icon: "🛡️", name: "Cybersecurity" },
-                //     { icon: "🔥", name: "Firebase" },
-                //     { icon: "🧠", name: "Machine Learning" },
-                // ];
-
-                const techStack = [
-                    { name: "React / Next.js" },
-                    { name: "TypeScript" },
-                    { name: "Tailwind CSS" },
-                    { name: "Python / Flask" },
-                    { name: "Flutter / Dart" },
-                    { name: "AWS / GCP" },
-                    { name: "Docker" },
-                    { name: "Cybersecurity" },
-                    { name: "Machine Learning" },
-                ];
-
-                return (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 max-w-4xl">
-                        {/* System Info */}
-                        <div>
-                            <p className="font-bold mb-1" style={{ color: "var(--accent)" }}>
-                                arnav@portfolio
-                            </p>
-                            <div
-                                className="mb-3 border-t"
-                                style={{ borderColor: "color-mix(in srgb, var(--fg) 30%, transparent)" }}
-                            />
-                            {sysInfo.map((info) => (
-                                <div key={info.label} className="flex gap-2 text-sm mb-1">
-                                    <span className="font-bold min-w-[100px]">{info.label}:</span>
-                                    <span style={{ opacity: 0.9 }}>{info.value}</span>
-                                </div>
-                            ))}
-                        </div>
-
-                        {/* Tech Stack */}
-                        <div>
-                            <p className="font-bold mb-1" style={{ color: "var(--accent)" }}>
-                                Tech Stack
-                            </p>
-                            <div
-                                className="mb-3 border-t"
-                                style={{ borderColor: "color-mix(in srgb, var(--fg) 30%, transparent)" }}
-                            />
-                            <div className="grid grid-cols-1 gap-1 text-sm">
-                                {techStack.map((tech) => (
-                                    <div key={tech.name} className="flex items-center gap-2">
-                                        <span style={{ color: "var(--accent)" }}>▸</span>
-                                        <span style={{ opacity: 0.9 }}>{tech.name}</span>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                );
-            }
 
             /* === THEMES (list) === */
             if (baseCmd === "themes" && parts.length === 1) {
-                return (
-                    <div className="space-y-4">
-                        <div className="flex items-center gap-2 mb-2">
-                            <Palette size={20} style={{ color: "var(--accent)" }} />
-                            <h2 className="text-xl font-semibold" style={{ color: "var(--accent)" }}>
-                                Available Themes
-                            </h2>
-                        </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                            {THEMES.map((theme) => (
-                                <button
-                                    key={theme.name}
-                                    onClick={() => setTheme(theme.name)}
-                                    className="p-4 rounded-lg border text-left transition-all hover:scale-105"
-                                    style={{
-                                        borderColor: currentTheme === theme.name ? theme.accent : "color-mix(in srgb, var(--fg) 20%, transparent)",
-                                        background: theme.bg,
-                                        color: theme.fg,
-                                        outline: currentTheme === theme.name ? `2px solid ${theme.accent}` : "none",
-                                        outlineOffset: "2px",
-                                    }}
-                                >
-                                    <p className="font-semibold mb-2">{theme.label}</p>
-                                    <div className="flex gap-2">
-                                        <div
-                                            className="w-4 h-4 rounded-full border"
-                                            style={{ background: theme.bg, borderColor: theme.fg }}
-                                        />
-                                        <div className="w-4 h-4 rounded-full" style={{ background: theme.fg }} />
-                                        <div className="w-4 h-4 rounded-full" style={{ background: theme.accent }} />
-                                    </div>
-                                    {currentTheme === theme.name && (
-                                        <p className="text-xs mt-2" style={{ color: theme.accent }}>
-                                            ✓ Active
-                                        </p>
-                                    )}
-                                </button>
-                            ))}
-                        </div>
-                        <p className="text-sm" style={{ opacity: 0.5 }}>
-                            Usage: themes set &lt;name&gt; (e.g., themes set espresso)
-                        </p>
-                    </div>
-                );
+                return <ThemesList onSetTheme={setTheme} />;
             }
 
             /* === THEMES SET <name> === */
@@ -1310,7 +1412,7 @@ export default function TerminalPortfolio() {
             /* === DETAILS === */
             if (trimmed === "details") {
                 return (
-                    <div className="space-y-4 max-w-3xl">
+                    <div className="space-y-4 max-w-4xl">
                         <div className="flex items-center gap-2 mb-2">
                             <Terminal size={20} style={{ color: "var(--accent)" }} />
                             <h2 className="text-xl font-semibold" style={{ color: "var(--accent)" }}>
@@ -1409,6 +1511,7 @@ export default function TerminalPortfolio() {
             // Handle clear command
             if (trimmed === "clear") {
                 setHistory([]);
+                setShowWelcome(false);
                 setIsProcessing(false);
                 return;
             }
@@ -1528,7 +1631,7 @@ export default function TerminalPortfolio() {
         { label: "Help", cmd: "help", icon: <HelpCircle size={16} /> },
         { label: "Projects", cmd: "projects", icon: <FolderGit2 size={16} /> },
         { label: "Skills", cmd: "skills", icon: <Layers size={16} /> },
-        { label: "Contact", cmd: "contact", icon: <Phone size={16} /> },
+        { label: "Socials", cmd: "socials", icon: <Phone size={16} /> },
         { label: "Resume", cmd: "resume", icon: <FileText size={16} /> },
         { label: "About", cmd: "about", icon: <User size={16} /> },
     ];
@@ -1555,8 +1658,6 @@ export default function TerminalPortfolio() {
             style={{ background: "var(--bg)" }}
             onClick={handleMainClick}
         >
-            {/* CRT Scanline Overlay */}
-            <div className="crt-scanlines" aria-hidden="true" />
 
             {/* Project Modal */}
             <AnimatePresence>
@@ -1569,7 +1670,7 @@ export default function TerminalPortfolio() {
             </AnimatePresence>
 
             {/* Terminal Window */}
-            <div className="w-full max-w-[1400px] mx-auto">
+            <div className="w-full max-w-5xl mx-auto">
                 <div className="terminal-glass rounded-xl overflow-hidden min-h-[600px] flex flex-col theme-transition">
                     {/* Terminal Header */}
                     <div
@@ -1638,21 +1739,27 @@ export default function TerminalPortfolio() {
                         {!isBooting && (
                             <div className="space-y-4">
                                 {/* Welcome (after boot) */}
-                                <motion.div
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    transition={{ delay: 0.1 }}
-                                >
-                                    <pre
-                                        className="text-xs md:text-sm whitespace-pre-wrap break-all text-glow mb-4"
-                                        style={{ color: "var(--fg)" }}
+                                {showWelcome && (
+                                    <motion.div
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        transition={{ delay: 0.1 }}
                                     >
-                                        {isMobile ? ASCII_BANNER_MOBILE : ASCII_BANNER_DESKTOP}
-                                    </pre>
-                                    <p className="mb-1" style={{ opacity: 0.7 }}>
-                                        Welcome! Type <strong style={{ color: "var(--accent)" }}>help</strong> to see available commands.
-                                    </p>
-                                </motion.div>
+                                        <pre
+                                            className="text-xs md:text-sm whitespace-pre-wrap break-all text-glow mb-4"
+                                            style={{ color: "var(--fg)" }}
+                                        >
+                                            {isMobile ? ASCII_BANNER_MOBILE : ASCII_BANNER_DESKTOP}
+                                        </pre>
+                                        <p className="mb-1" style={{ opacity: 0.7 }}>
+                                            Welcome to the terminal portfolio of Arnav Parekar!
+                                        </p>
+                                        <p className="mb-1" style={{ opacity: 0.7 }}>
+                                            Type <strong style={{ color: "var(--accent)" }}>help</strong> to see available commands and <strong style={{ color: "var(--accent)" }}>themes</strong> to explore available themes.
+                                        </p>
+
+                                    </motion.div>
+                                )}
 
                                 {/* Rendered History */}
                                 {history.map((entry) => (

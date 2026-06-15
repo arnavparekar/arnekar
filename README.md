@@ -113,9 +113,9 @@ All interaction happens through the terminal prompt — just like a real shell.
  experience           View work experience
  projects             Browse project portfolio
  skills               View technical skills
- contact              Get contact information
+ achievements         View hackathons, patents, and publications
+ socials              Get contact information
  resume               View or download resume
- neofetch             Display system info (Linux-style)
  themes               List available color themes
  themes set <name>    Switch to a specific theme
  banner               Display the ASCII art banner

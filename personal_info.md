@@ -32,7 +32,7 @@ LeetCode: https://leetcode.com/u/arnav_parekar/
 Institution: Vellore Institute of Technology Chennai
 Degree: Bachelor of Technology
 Major/Branch: Computer Science and Engineering
-CGPA/GPA: 9.19 / 10.0 
+CGPA/GPA: 9.16 / 10.0 
 Duration: 2023 - 2027
 ```
 
