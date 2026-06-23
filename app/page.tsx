@@ -876,10 +876,23 @@ export default function TerminalPortfolio() {
 
     /* ------- AUTO SCROLL ------- */
     useEffect(() => {
+        if (!isBooting && history.length > 0) {
+            const lastEntryId = history[history.length - 1].id;
+            const element = document.getElementById(`history-${lastEntryId}`);
+            if (element) {
+                // Short delay ensures React has laid out the DOM before we measure/scroll
+                setTimeout(() => {
+                    element.scrollIntoView({ behavior: "smooth", block: "start" });
+                }, 50);
+                return;
+            }
+        }
+        
+        // Fallback for booting or empty history
         if (outputRef.current) {
             outputRef.current.scrollTop = outputRef.current.scrollHeight;
         }
-    }, [history, bootText]);
+    }, [history, isBooting, bootText]);
 
     /* ------- FOCUS INPUT ------- */
     useEffect(() => {
@@ -1765,6 +1778,7 @@ export default function TerminalPortfolio() {
                                 {history.map((entry) => (
                                     <motion.div
                                         key={entry.id}
+                                        id={`history-${entry.id}`}
                                         initial={{ opacity: 0, y: 8 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         transition={{ duration: 0.2 }}

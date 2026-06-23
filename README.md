@@ -29,76 +29,7 @@
 
 <br/>
 
-## ✨ Highlights
 
-| | Feature | Description |
-|---|---|---|
-| 🎬 | **Boot Sequence** | Character-streamed ASCII banner with a retro startup feel |
-| 🎨 | **6 Hand-Crafted Themes** | Dark, Light, Blue Matrix, Espresso, Green Goblin, Ubuntu |
-| ⌨️ | **Real Terminal UX** | Tab autocomplete, command history (↑/↓), streaming output |
-| 🖼️ | **Project Gallery Modals** | Scrollable image galleries with intersection-synced dot indicators |
-| 📱 | **Fully Responsive** | Mobile quick-action bar + compact ASCII banner |
-| 📺 | **CRT Effects** | Scanline overlay + text glow for authentic retro vibes |
-| 🧊 | **Glassmorphism UI** | Frosted-glass terminal window with depth and elegance |
-
-<br/>
-
----
-
-<br/>
-
-## 📸 Screenshots
-
-<div align="center">
-
-### Dark Theme _(Default)_
-<img src="public/screenshots/dark-theme.png" alt="Dark Theme" width="90%" style="border-radius: 12px;" />
-
-<br/><br/>
-
-<table>
-<tr>
-<td width="50%">
-
-### 🔵 Blue Matrix
-<img src="public/screenshots/blue-matrix.png" alt="Blue Matrix Theme" width="100%" />
-
-</td>
-<td width="50%">
-
-### ☕ Espresso
-<img src="public/screenshots/espresso.png" alt="Espresso Theme" width="100%" />
-
-</td>
-</tr>
-<tr>
-<td width="50%">
-
-### 🟢 Green Goblin
-<img src="public/screenshots/green-goblin.png" alt="Green Goblin Theme" width="100%" />
-
-</td>
-<td width="50%">
-
-### 🟣 Ubuntu
-<img src="public/screenshots/ubuntu.png" alt="Ubuntu Theme" width="100%" />
-
-</td>
-</tr>
-</table>
-
-<br/>
-
-### 📱 Mobile View
-<img src="public/screenshots/mobile.png" alt="Mobile View" width="320" style="border-radius: 12px;" />
-
-</div>
-
-<br/>
-
----
-
-<br/>
 
 ## ⌨️ Commands
 
@@ -134,7 +65,6 @@ All interaction happens through the terminal prompt — just like a real shell.
 | `Enter` | Execute command |
 | `Esc` | Close project modal |
 
-> **Pro tip:** Type `themes set es` then press `Tab` — it autocompletes to `themes set espresso` ✨
 
 <br/>
 
@@ -148,10 +78,10 @@ Switch themes on-the-fly with `themes set <name>`. Your choice persists across s
 
 | Theme | Colors | Vibe |
 |---|---|---|
-| **Dark** _(default)_ | `#0a0e27` `#00ff41` `#00d9ff` | Classic hacker aesthetic |
+| **Dark** | `#0a0e27` `#00ff41` `#00d9ff` | Classic hacker aesthetic |
 | **Light** | `#f5f5f5` `#2d3748` `#3182ce` | Clean & accessible |
 | **Blue Matrix** | `#0d1b2a` `#00d9ff` `#00ff41` | Cyberpunk neon |
-| **Espresso** | `#2b1d0e` `#e4c07a` `#d4976c` | Warm coffee-shop coding |
+| **Espresso** _(default)_ | `#2b1d0e` `#e4c07a` `#d4976c` | Warm coffee-shop coding |
 | **Green Goblin** | `#0f2027` `#39ff14` `#7fff00` | Neon hacker energy |
 | **Ubuntu** | `#300a24` `#ffffff` `#e95420` | The classic Linux look |
 
@@ -161,43 +91,7 @@ Switch themes on-the-fly with `themes set <name>`. Your choice persists across s
 
 <br/>
 
-## 🚀 Quick Start
 
-### Prerequisites
-
-- **Node.js** ≥ 18
-- **npm** ≥ 9
-
-### Installation
-
-```bash
-# Clone the repository
-git clone https://github.com/arnavparekar/terminal-portfolio.git
-
-# Navigate to the project
-cd terminal-portfolio
-
-# Install dependencies
-npm install
-
-# Start the dev server
-npm run dev
-```
-
-Open **[http://localhost:3000](http://localhost:3000)** — the terminal boots up automatically.
-
-### Production Build
-
-```bash
-npm run build
-npm start
-```
-
-<br/>
-
----
-
-<br/>
 
 ## 📁 Project Structure
 
@@ -288,7 +182,7 @@ This portfolio is designed to be easily forked and personalized:
 
 <br/>
 
-## � License
+## License
 
 This project is open source and available under the [MIT License](LICENSE).
 
@@ -300,11 +194,7 @@ This project is open source and available under the [MIT License](LICENSE).
 
 <br/>
 
-**Built with ☕ and `console.log()` by [Arnav Parekar](https://github.com/arnavparekar)**
 
-<br/>
-
-⭐ Star this repo if you found it useful!
 
 <br/>
 
