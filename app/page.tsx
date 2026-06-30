@@ -141,14 +141,14 @@ const PROJECTS: Project[] = [
         isMobile: true,
     },
     {
-        title: "Justice.ai",
+        title: "Vantage",
         description:
-            "A legal AI assistant (Vue + Gemini AI) that simplifies legal documents by ~70% using NLP-driven summarization. Integrated WatsonX AI for multilingual legal insight extraction and adaptive explanations across 5+ languages.",
-        techStack: ["Vue", "Gemini AI", "WatsonX", "NLP", "Multilingual"],
-        github: "https://github.com/arnavparekar/Justice.ai",
+            "An analytics platform that provides actionable insights into your GitHub Actions pipelines. It ingests real-time webhook payloads from GitHub, processes workflow run data, and visualizes CI/CD performance—helping teams identify flaky tests, optimize build durations, and track deployment success rates.",
+        techStack: ["FastAPI", "PostgreSQL", "Docker", "AWS EC2", "Prometheus", "Grafana", "GitHub Actions", "Nginx"],
+        github: "https://github.com/arnavparekar/Vantage",
         /* TODO: Replace with your actual project screenshot at /public/projects/project5.jpg */
         image: "/projects/project5.jpg",
-        galleryImages: ["/projects/project5-2.jpg", "/projects/project5-3.jpg"],
+        // galleryImages: ["/projects/project5-2.jpg", "/projects/project5-3.jpg"],
     },
 ];
 
@@ -284,37 +284,35 @@ const COMMANDS_LIST: { command: string; description: string }[] = [
 ];
 
 /* ASCII art banner — desktop version */
-const ASCII_BANNER_DESKTOP = `
-....###....########..##....##.########.##....##....###....########.
-...##.##...##.....##.###...##.##.......##...##....##.##...##.....##
-..##...##..##.....##.####..##.##.......##..##....##...##..##.....##
-.##.....##.########..##.##.##.######...#####....##.....##.########.
-.#########.##...##...##..####.##.......##..##...#########.##...##..
-.##.....##.##....##..##...###.##.......##...##..##.....##.##....##.
-.##.....##.##.....##.##....##.########.##....##.##.....##.##.....##`;
-
 // const ASCII_BANNER_DESKTOP = `
-// ....###....########..##....##....###....##.....##.......########.....###....########..########.##....##....###....########.
-// ...##.##...##.....##.###...##...##.##...##.....##.......##.....##...##.##...##.....##.##.......##...##....##.##...##.....##
-// ..##...##..##.....##.####..##..##...##..##.....##.......##.....##..##...##..##.....##.##.......##..##....##...##..##.....##
-// .##.....##.########..##.##.##.##.....##.##.....##.......########..##.....##.########..######...#####....##.....##.########.
-// .#########.##...##...##..####.#########..##...##........##........#########.##...##...##.......##..##...#########.##...##..
-// .##.....##.##....##..##...###.##.....##...##.##.........##........##.....##.##....##..##.......##...##..##.....##.##....##.
-// .##.....##.##.....##.##....##.##.....##....###..........##........##.....##.##.....##.########.##....##.##.....##.##.....##`;
+// ....###....########..##....##.########.##....##....###....########.
+// ...##.##...##.....##.###...##.##.......##...##....##.##...##.....##
+// ..##...##..##.....##.####..##.##.......##..##....##...##..##.....##
+// .##.....##.########..##.##.##.######...#####....##.....##.########.
+// .#########.##...##...##..####.##.......##..##...#########.##...##..
+// .##.....##.##....##..##...###.##.......##...##..##.....##.##....##.
+// .##.....##.##.....##.##....##.########.##....##.##.....##.##.....##`;
+
+const ASCII_BANNER_DESKTOP = `
+:::'###::::'########::'##::: ##::::'###::::'##::::'##:
+::'## ##::: ##.... ##: ###:: ##:::'## ##::: ##:::: ##:
+:'##:. ##:: ##:::: ##: ####: ##::'##:. ##:: ##:::: ##:
+'##:::. ##: ########:: ## ## ##:'##:::. ##: ##:::: ##:
+ #########: ##.. ##::: ##. ####: #########:. ##:: ##::
+ ##.... ##: ##::. ##:: ##:. ###: ##.... ##::. ## ##:::
+ ##:::: ##: ##:::. ##: ##::. ##: ##:::: ##:::. ###::::
+..:::::..::..:::::..::..::::..::..:::::..:::::...:::::`;
 
 /* ASCII art banner — mobile-friendly compact version */
 const ASCII_BANNER_MOBILE = `
-╔══════════════════════════════════════════╗
-║                                          ║    
-║ █████  ██████  ███    ██  █████  ██    ██║
-║██   ██ ██   ██ ████   ██ ██   ██ ██    ██║
-║███████ ██████  ██ ██  ██ ███████ ██    ██║
-║██   ██ ██   ██ ██  ██ ██ ██   ██  ██  ██ ║
-║██   ██ ██   ██ ██   ████ ██   ██   ████  ║
-║                                          ║
-║  Developer • Cybersecurity Enthusiast    ║
-║  Portfolio of Arnav Parekar              ║
-╚══════════════════════════════════════════╝`;
+:::'###:::::::'########::
+::'## ##:::::: ##.... ##:
+:'##:. ##::::: ##:::: ##:
+'##:::. ##:::: ########::
+ #########:::: ##.....:::
+ ##.... ##:::: ##::::::::
+ ##:::: ##:::: ##::::::::
+..:::::..:::::..:::::::::`;
 
 /* ============================================
    STREAMING TEXT COMPONENT
@@ -887,7 +885,7 @@ export default function TerminalPortfolio() {
                 return;
             }
         }
-        
+
         // Fallback for booting or empty history
         if (outputRef.current) {
             outputRef.current.scrollTop = outputRef.current.scrollHeight;
